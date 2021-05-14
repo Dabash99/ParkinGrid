@@ -17,20 +17,53 @@ class AppCubit extends Cubit<AppState> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  LoginModel loginModel;
+  UserLoginData loginModel;
   void getUserData() {
     emit(LoadingUserDataState());
     DioHelper.getData(
       url: PROFILE,
       token: token,
     ).then((value) {
-      loginModel = LoginModel.fromJson(value.data);
-      printFullText(loginModel.data.firstName);
+      loginModel = UserLoginData.fromJson(value.data);
+      printFullText('DAtaaaa ====== ${value.data}');
       emit(SuccessUserDataState(loginModel));
     }).catchError((error) {
       print(error.toString());
+      print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
       emit(ErrorUserDataState());
     });
   }
 
+  void updateUserData({
+  @required String firstname,
+    @required String lastname,
+    @required String email,
+    @required String password,
+    @required String carnumber,
+    @required String carLetter,
+
+}){
+    emit(LoadingUpdateUserDataState());
+    DioHelper.postData(
+      url: PROFILE,
+      token: token,
+      data: {
+        'firstName':firstname,
+        'lastName':lastname,
+        'email':email,
+        'password': password,
+        'carNumber': carnumber,
+        'carLetter': carLetter,
+        //'phoneNumber': phoneNumber,
+      }
+    ).then((value) {
+      loginModel = UserLoginData.fromJson(value.data);
+      printFullText('DAtaaaa ====== ${value.data}');
+      emit(SuccessUpdateUserDataState(loginModel));
+    }).catchError((error) {
+      print(error.toString());
+      print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
+      emit(ErrorUpdateUserDataState());
+    });
+  }
 }

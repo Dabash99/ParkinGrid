@@ -1,7 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:parking_gird/models/login_model.dart';
-import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
+import 'package:parking_gird/modules/edit_account/edit_account.dart';
 
 import 'package:parking_gird/modules/home_screen/home_screen.dart';
 import 'package:parking_gird/modules/parking_screen/parking_screen.dart';
@@ -158,42 +160,21 @@ Widget customAppBar({@required String title}) => AppBar(
         )
       ],
     );
-LoginModel loginModel;
-Widget customDrawer(context) => Drawer(
+
+
+Widget customDrawer(context,{@required UserLoginData userLoginData}) => Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Color(0xff036635),
+             color: defaultColor
             ),
-            child: Column(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/logo_splash.png',
-                  width: 80,
-                  height: 80,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      loginModel.data.firstName,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    Text(
-                      loginModel.data.lastName,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  loginModel.data.email,
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                )
-              ],
+            child: Center(
+              child: Image.asset(
+                'assets/images/logo_splash.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           //Home Tap
@@ -211,7 +192,7 @@ Widget customDrawer(context) => Drawer(
                 Icons.edit,
                 color: Color(0xff078547),
               ),
-              widget: HomeScreen()),
+              widget: EditAccountScreen()),
           //Help Tap
           defaultListTile(context,
               title: 'Help',

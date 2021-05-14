@@ -5,15 +5,6 @@ abstract class HomeState {}
 
 class HomeInitial extends HomeState {}
 
-class LoadingUserDataState extends HomeState {}
-
-class SuccessUserDataState extends HomeState
-{
-  final LoginModel loginModel;
-
-  SuccessUserDataState(this.loginModel);
-}
-class ErrorUserDataState extends HomeState {}
 
 
 class LoadingAllGaragesDataState extends HomeState {}
