@@ -162,7 +162,7 @@ Widget customAppBar({@required String title}) => AppBar(
     );
 
 
-Widget customDrawer(context,{@required UserLoginData userLoginData}) => Drawer(
+Widget customDrawer(context) => Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -324,3 +324,18 @@ Widget alertDialogTimer(context)=>  AlertDialog(
     ),
   ],
 );
+
+class HeaderCurvedContainer extends CustomPainter{
+  @override
+  void paint(Canvas canvas,Size size){
+    var paint= Paint()..color=Colors.black;
+    var path =Path()
+      ..relativeLineTo(0, 150)
+      ..quadraticBezierTo(size.width/2, 225, size.width, 150)
+      ..relativeLineTo(0,-150)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+  @override
+  bool  shouldRepaint( CustomPainter oldDelegate) => false;
+}

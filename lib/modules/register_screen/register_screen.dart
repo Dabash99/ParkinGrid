@@ -57,16 +57,16 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Container(
-                          child: Image.asset(
-                            'assets/images/logo_splash.png',
-                            height: 40,
-                            width: 40,
-                          ),
                           height: 80,
                           width: 80,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(150)),
+                          child: Image.asset(
+                            'assets/images/logo_splash.png',
+                            height: 40,
+                            width: 40,
+                          ),
                         ),
                       ),
                       SizedBox(

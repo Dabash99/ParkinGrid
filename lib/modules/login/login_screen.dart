@@ -49,16 +49,16 @@ class LoginScreen extends StatelessWidget {
                         //Logo
                         Center(
                           child: Container(
-                            child: Image.asset(
-                              'assets/images/logo_splash.png',
-                              height: 50,
-                              width: 50,
-                            ),
                             height: 100,
                             width: 100,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(150)),
+                            child: Image.asset(
+                              'assets/images/logo_splash.png',
+                              height: 50,
+                              width: 50,
+                            ),
                           ),
                         ),
                         SizedBox(

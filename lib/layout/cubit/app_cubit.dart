@@ -35,35 +35,60 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void updateUserData({
-  @required String firstname,
+    @required String firstname,
     @required String lastname,
     @required String email,
-    @required String password,
+    String password,
     @required String carnumber,
     @required String carLetter,
-
+    @required String phoneNumber,
 }){
     emit(LoadingUpdateUserDataState());
-    DioHelper.postData(
-      url: PROFILE,
-      token: token,
-      data: {
-        'firstName':firstname,
-        'lastName':lastname,
-        'email':email,
-        'password': password,
-        'carNumber': carnumber,
-        'carLetter': carLetter,
-        //'phoneNumber': phoneNumber,
-      }
-    ).then((value) {
-      loginModel = UserLoginData.fromJson(value.data);
-      printFullText('DAtaaaa ====== ${value.data}');
-      emit(SuccessUpdateUserDataState(loginModel));
-    }).catchError((error) {
-      print(error.toString());
-      print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
-      emit(ErrorUpdateUserDataState());
-    });
+   if(password.isEmpty){
+     DioHelper.postData(
+         url: PROFILE,
+         token: token,
+         data: {
+           'firstName':firstname,
+           'lastName':lastname,
+           'email':email,
+           //'password': password,
+           'carNumber': carnumber,
+           'carLetter': carLetter,
+           'phoneNumber': phoneNumber,
+         }
+     ).then((value) {
+       loginModel = UserLoginData.fromJson(value.data);
+       printFullText('DAtaaaa ====== ${value.data}');
+       emit(SuccessUpdateUserDataState(loginModel));
+     }).catchError((error) {
+       print(error.toString());
+       print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
+       emit(ErrorUpdateUserDataState());
+     });
+   }
+   else{
+     DioHelper.postData(
+         url: PROFILE,
+         token: token,
+         data: {
+           'firstName':firstname,
+           'lastName':lastname,
+           'email':email,
+           'password': password,
+           'carNumber': carnumber,
+           'carLetter': carLetter,
+           'phoneNumber': phoneNumber,
+         }
+     ).then((value) {
+       loginModel = UserLoginData.fromJson(value.data);
+       printFullText('DAtaaaa ====== ${value.data}');
+       emit(SuccessUpdateUserDataState(loginModel));
+     }).catchError((error) {
+       print(error.toString());
+       print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
+       emit(ErrorUpdateUserDataState());
+     });
+   }
   }
 }
