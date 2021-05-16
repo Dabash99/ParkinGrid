@@ -9,6 +9,7 @@ import 'package:parking_gird/models/login_model.dart';
 import 'package:parking_gird/models/parks_model.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/end_points.dart';
+import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/network/remote/dio_helper.dart';
 import 'package:parking_gird/util/get_the_distanceBetween_twopoints.dart';
 
@@ -76,7 +77,7 @@ class HomeCubit extends Cubit<HomeState> {
     //Nearest Garage Name
     getAllGarages.garages.forEach((element) {
       if (element.sId == nearestGarageID) {
-        Ganame = element.garageName;
+        CacheHelper.saveData(key: 'Garage Name', value: element.garageName);
       }
     }
     );

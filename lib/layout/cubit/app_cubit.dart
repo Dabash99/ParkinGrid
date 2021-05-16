@@ -91,4 +91,12 @@ class AppCubit extends Cubit<AppState> {
      });
    }
   }
+
+  void removeParkData(){
+    CacheHelper.removeData(key: 'Parking Name');
+    CacheHelper.removeData(key: 'Parking Floor');
+     parkname ='';
+     parkfloor ='';
+  }
+
 }

@@ -1,3 +1,4 @@
+
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
 import 'package:parking_gird/modules/timer_screen/timer_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
+import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
 import 'package:parking_gird/util/choose_color.dart';
 
@@ -91,10 +93,11 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                                     .selected =
                                                 !idGarage.getAllParks
                                                     .parkings[index].selected;
-                                            id=  idGarage.getAllParks
-                                                .parkings[index].sId;
-                                            parkname = idGarage.getAllParks.parkings[index].parkingName;
-                                            parkfloor = idGarage.getAllParks.parkings[index].parkingFloor;
+                                            CacheHelper.saveData(key: 'ID', value: idGarage.getAllParks
+                                                .parkings[index].sId);
+                                            CacheHelper.saveData(key: 'Parking Name', value: idGarage.getAllParks.parkings[index].parkingName);
+                                            CacheHelper.saveData(key: 'Parking Floor', value: idGarage.getAllParks.parkings[index].parkingFloor);
+
 
                                           } else {
                                             idGarage.getAllParks.parkings[i]

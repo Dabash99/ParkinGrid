@@ -142,13 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // button color
                                 child: InkWell(
                                   splashColor: Colors.green[100],
-                                  // inkwell color
-                                  child: SizedBox(
-                                    width: 56,
-                                    height: 56,
-                                    child: Icon(Icons.my_location,
-                                        color: Colors.white),
-                                  ),
                                   onTap: () {
                                     mapController.animateCamera(
                                       CameraUpdate.newCameraPosition(
@@ -162,6 +155,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     );
                                   },
+                                  // inkwell color
+                                  child: SizedBox(
+                                    width: 56,
+                                    height: 56,
+                                    child: Icon(Icons.my_location,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
                             ),
