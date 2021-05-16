@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:parking_gird/layout/cubit/app_cubit.dart';
@@ -166,15 +164,12 @@ Widget customAppBar({@required String title}) => AppBar(
       ],
     );
 
-
 Widget customDrawer(context) => Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-             color: defaultColor
-            ),
+            decoration: BoxDecoration(color: defaultColor),
             child: Center(
               child: Image.asset(
                 'assets/images/logo_splash.png',
@@ -261,7 +256,7 @@ Widget buildParks(
         @required String name,
         @required Function ontapFunction,
         @required double Width,
-          @required bool Ignoring}) =>
+        @required bool Ignoring}) =>
     Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
@@ -306,49 +301,57 @@ Widget buildInfoPark({@required Color color, @required String string}) => Row(
       ],
     );
 
-Widget alertDialogTimer(context)=>  AlertDialog(
-  title: Row(
-    children: [
-      Icon( Icons.warning,color: Colors.orangeAccent,),
-      SizedBox(width: 8,),
-      Text('Attention',style: TextStyle(color:Colors.orange),),
-    ],
-  ),
-  content: Text('Your Booking is Cancelled'),
-  actions: [
-    TextButton(
-      onPressed: () {
-        navigateAndFinish(context, ParkingScreen());
-      },
-      child: Text('OK, Back to book other park',style: TextStyle(color:defaultColor)),
-    ),
-    TextButton(
-      onPressed: () {
-        navigateAndFinish(context, HomeScreen());
-      },
-      child: Text('Cancel',style: TextStyle(color: Colors.red),),
-    ),
-  ],
-);
-
-Widget logoNewDesign()=>  WidgetCircularAnimator(
-  size: 150,
-  innerColor: Colors.white,
-  outerColor: Colors.white,
-  innerAnimation: Curves.bounceOut,
-  reverse: false,
-  child: Center(
-    child: Container(
-      height: 100,
-      width: 100,
-      decoration: BoxDecoration(
-          color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
-          borderRadius: BorderRadius.circular(150)),
-      child: Image.asset(
-        'assets/images/logo_splash.png',
-        height: 50,
-        width: 50,
+Widget alertDialogTimer(context) => AlertDialog(
+      title: Row(
+        children: [
+          Icon(
+            Icons.warning,
+            color: Colors.orangeAccent,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Text(
+            'Attention',
+            style: TextStyle(color: Colors.orange),
+          ),
+        ],
       ),
-    ),
-  ));
+      content: Text('Your Booking is Cancelled'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            navigateAndFinish(context, ParkingScreen());
+          },
+          child: Text('OK, Back to book other park',
+              style: TextStyle(color: defaultColor)),
+        ),
+        TextButton(
+          onPressed: () {
+            navigateAndFinish(context, HomeScreen());
+          },
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
+    );
 
+Widget logoNewDesign() => WidgetCircularAnimator(
+    size: 150,
+    innerColor: Colors.white,
+    outerColor: Colors.white,
+    innerAnimation: Curves.bounceOut,
+    reverse: false,
+    child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
+            borderRadius: BorderRadius.circular(150)),
+        child: Image.asset(
+          'assets/images/logo_splash.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    ));

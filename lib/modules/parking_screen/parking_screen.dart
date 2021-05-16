@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +14,6 @@ class ParkingScreen extends StatefulWidget {
   _ParkingScreenState createState() => _ParkingScreenState();
 }
 
-
-
 bool IGNORING({@required String color}) {
   if (color == 'yellow' || color == 'red') {
     return true;
@@ -24,7 +21,14 @@ bool IGNORING({@required String color}) {
     return false;
   }
 }
-
+/*bool TEXTIGNORING({@required String id}){
+  if( id.isNotEmpty){
+    return false;
+  }
+  else {
+    return true;
+  }
+}*/
 
 class _ParkingScreenState extends State<ParkingScreen> {
   @override
@@ -86,19 +90,49 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                       setState(() {
                                         print('22222 === $index');
                                         for (var i = 0;
-                                            i < idGarage.getAllParks.parkings.length;
+                                            i <
+                                                idGarage.getAllParks.parkings
+                                                    .length;
                                             i++) {
                                           if (i == index) {
                                             idGarage.getAllParks.parkings[index]
                                                     .selected =
                                                 !idGarage.getAllParks
                                                     .parkings[index].selected;
-                                            CacheHelper.saveData(key: 'ID', value: idGarage.getAllParks
-                                                .parkings[index].sId);
-                                            CacheHelper.saveData(key: 'Parking Name', value: idGarage.getAllParks.parkings[index].parkingName);
-                                            CacheHelper.saveData(key: 'Parking Floor', value: idGarage.getAllParks.parkings[index].parkingFloor);
+                                            //===========================================
+                                           if(id.isNotEmpty){
+                                             isSelected = !isSelected;
+                                           }
+                                            //===========================================
 
-
+                                            print('Selected = $isSelected ');
+                                            if (isSelected) {
+                                              CacheHelper.saveData(
+                                                  key: 'ID',
+                                                  value: idGarage.getAllParks
+                                                      .parkings[index].sId);
+                                              CacheHelper.saveData(
+                                                  key: 'Parking Name',
+                                                  value: idGarage
+                                                      .getAllParks
+                                                      .parkings[index]
+                                                      .parkingName);
+                                              CacheHelper.saveData(
+                                                  key: 'Parking Floor',
+                                                  value: idGarage
+                                                      .getAllParks
+                                                      .parkings[index]
+                                                      .parkingFloor);
+                                            } else {
+                                              CacheHelper.removeData(
+                                                  key: 'Parking Name');
+                                              CacheHelper.removeData(
+                                                  key: 'Parking Floor');
+                                              CacheHelper.removeData(key: 'ID');
+                                              showToastt(
+                                                  msg: 'Please Select Park',
+                                                  state: ToastStates.WARNING);
+                                            }
                                           } else {
                                             idGarage.getAllParks.parkings[i]
                                                 .selected = true;
@@ -107,18 +141,39 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                         print('### = $id');
                                       });
                                     },
-                                    Width: idGarage.getAllParks.parkings[index].selected ? 0 : 8,
+                                    Width: idGarage.getAllParks.parkings[index]
+                                            .selected
+                                        ? 0
+                                        : 8,
                                   );
                                 }),
                               ),
                               SizedBox(
                                 height: 5,
                               ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    idGarage.sendParkRequest(garageName: Ganame, id: id, status: 1);
-                                    navigateAndFinish(context, TimerScreen());
-                                  }, child: Text('Book Now')),
+                              IgnorePointer(
+                                ignoring: !isSelected,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: isSelected
+                                            ? Color(0xff078547)
+                                            : Colors.black),
+                                    onPressed: () {
+                                      if (isSelected) {
+                                        idGarage.sendParkRequest(
+                                            garageName: Ganame,
+                                            id: id,
+                                            status: 1);
+                                        navigateAndFinish(
+                                            context, TimerScreen());
+                                      } else {
+                                        showToastt(
+                                            msg: 'Please Select Park',
+                                            state: ToastStates.WARNING);
+                                      }
+                                    },
+                                    child: Text('Book Now')),
+                              ),
                               SizedBox(
                                 height: 16,
                               ),

@@ -1,4 +1,5 @@
 
+import 'package:blinking_point/blinking_point.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_gird/modules/login/login_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
@@ -26,18 +27,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: defaultColor.withOpacity(0.60),
-        body: Container(
-          child: WidgetCircularAnimator(
-            innerColor: Colors.white,
-            outerColor: Colors.white,
-            child: Center(
-              child: Image(
-                  image: AssetImage(
-                    'assets/images/logo_splash.png',
-                  ),height: 300,width: 300,
-                  fit: BoxFit.cover,),
-            ),
+        backgroundColor: defaultColor,
+        body: WidgetCircularAnimator(
+          innerColor: Colors.white,
+          outerColor: Colors.white,
+          child: Center(
+            child: Image(
+                image: AssetImage(
+                  'assets/images/logo_splash.png',
+                ),height: 300,width: 300,
+                fit: BoxFit.cover,),
           ),
         ));
   }

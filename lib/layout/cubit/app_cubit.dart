@@ -95,7 +95,9 @@ class AppCubit extends Cubit<AppState> {
   void removeParkData(){
     CacheHelper.removeData(key: 'Parking Name');
     CacheHelper.removeData(key: 'Parking Floor');
-     parkname ='';
+    CacheHelper.removeData(key: 'ID');
+    id ='';
+    parkname ='';
      parkfloor ='';
   }
 

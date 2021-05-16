@@ -111,7 +111,9 @@ class TimerScreen extends StatelessWidget {
                 HomeCubit.get(context)
                     .sendParkRequest(garageName: Ganame, id: id, status: 3);
                 AppCubit.get(context).removeParkData();
+                isSelected=false;
                 navigateAndFinish(context, ParkingScreen());
+
               },
               child: Text('Cancel Booking',style: TextStyle(
                 fontSize: 20,color: Colors.red,fontWeight: FontWeight.w700

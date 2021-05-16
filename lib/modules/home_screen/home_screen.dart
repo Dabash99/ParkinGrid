@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mapController = controller;
                               locatepostion();
                               setState(() {
-                                for (int index = 0;
+                                for (var index = 0;
                                 index <
                                     garageCubit
                                         .getAllGarages.garages.length;
@@ -179,6 +179,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // button color
                                   child: InkWell(
                                     splashColor: Colors.green[100],
+                                    onTap: () {
+                                      mapController.animateCamera(
+                                        CameraUpdate.zoomIn(),
+                                      );
+                                    },
                                     // inkwell color
                                     child: SizedBox(
                                       width: 50,
@@ -188,11 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    onTap: () {
-                                      mapController.animateCamera(
-                                        CameraUpdate.zoomIn(),
-                                      );
-                                    },
                                   ),
                                 ),
                               ),
@@ -203,6 +203,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // button color
                                   child: InkWell(
                                     splashColor: Colors.green,
+                                    onTap: () {
+                                      mapController.animateCamera(
+                                        CameraUpdate.zoomOut(),
+                                      );
+                                    },
                                     // inkwell color
                                     child: SizedBox(
                                       width: 50,
@@ -212,11 +217,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    onTap: () {
-                                      mapController.animateCamera(
-                                        CameraUpdate.zoomOut(),
-                                      );
-                                    },
                                   ),
                                 ),
                               ),
