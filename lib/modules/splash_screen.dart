@@ -15,16 +15,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  @override
   void initState() {
     super.initState();
     Timer(
         Duration(seconds: 3),
             ()=> navigateAndFinish(context, LoginScreen()));
   }
-
-
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: defaultColor.withOpacity(0.60),

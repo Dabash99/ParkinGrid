@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:parking_gird/models/login_model.dart';
 import 'package:parking_gird/modules/edit_account/edit_account.dart';
+import 'package:parking_gird/modules/help_screen.dart';
 
 import 'package:parking_gird/modules/home_screen/home_screen.dart';
 import 'package:parking_gird/modules/parking_screen/parking_screen.dart';
+import 'package:parking_gird/modules/rate_us_screen.dart';
+import 'package:parking_gird/modules/share_screen.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
 
 import 'constants.dart';
@@ -200,7 +203,7 @@ Widget customDrawer(context) => Drawer(
                 Icons.help,
                 color: Color(0xff078547),
               ),
-              widget: HomeScreen()),
+              widget: HelpScreen()),
           //Share Tap
           defaultListTile(context,
               title: 'Share',
@@ -208,7 +211,7 @@ Widget customDrawer(context) => Drawer(
                 Icons.share,
                 color: Color(0xff078547),
               ),
-              widget: HomeScreen()),
+              widget: ShareScreen()),
           //Rate Tap
           defaultListTile(context,
               title: 'Rate Us',
@@ -216,7 +219,7 @@ Widget customDrawer(context) => Drawer(
                 Icons.rate_review,
                 color: Color(0xff078547),
               ),
-              widget: HomeScreen()),
+              widget: RateUsScreen()),
           ListTile(
             title: Text(
               'Sign out',
@@ -325,17 +328,3 @@ Widget alertDialogTimer(context)=>  AlertDialog(
   ],
 );
 
-class HeaderCurvedContainer extends CustomPainter{
-  @override
-  void paint(Canvas canvas,Size size){
-    var paint= Paint()..color=Colors.black;
-    var path =Path()
-      ..relativeLineTo(0, 150)
-      ..quadraticBezierTo(size.width/2, 225, size.width, 150)
-      ..relativeLineTo(0,-150)
-      ..close();
-    canvas.drawPath(path, paint);
-  }
-  @override
-  bool  shouldRepaint( CustomPainter oldDelegate) => false;
-}

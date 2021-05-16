@@ -185,15 +185,15 @@ class EditAccountScreen extends StatelessWidget {
                                         text: 'update',
                                         function: () {
                                           if (formKey.currentState.validate()) {
-                                            AppCubit.get(context).updateUserData(
-                                                firstname: firstNameController.text,
-                                                lastname: lastNameController.text,
-                                                email: emailController.text,
-                                                password: passwordController.text,
-                                                carLetter: carLetterController.text,
-                                                carnumber: carNumberController.text,
-                                                phoneNumber: phoneController.text
-                                            );
+                                              AppCubit.get(context).updateUserData(
+                                                  firstname: firstNameController.text,
+                                                  lastname: lastNameController.text,
+                                                  email: emailController.text,
+                                                  password: passwordController.text,
+                                                  carLetter: carLetterController.text,
+                                                  carnumber: carNumberController.text,
+                                                  phoneNumber: phoneController.text
+                                              );
                                           }
                                         }),
                                     fallback: (context) => Center(
