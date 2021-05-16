@@ -12,6 +12,7 @@ import 'package:parking_gird/modules/parking_screen/parking_screen.dart';
 import 'package:parking_gird/modules/rate_us_screen.dart';
 import 'package:parking_gird/modules/share_screen.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 import 'constants.dart';
 
@@ -304,6 +305,7 @@ Widget buildInfoPark({@required Color color, @required String string}) => Row(
         )
       ],
     );
+
 Widget alertDialogTimer(context)=>  AlertDialog(
   title: Row(
     children: [
@@ -328,4 +330,25 @@ Widget alertDialogTimer(context)=>  AlertDialog(
     ),
   ],
 );
+
+Widget logoNewDesign()=>  WidgetCircularAnimator(
+  size: 150,
+  innerColor: Colors.white,
+  outerColor: Colors.white,
+  innerAnimation: Curves.bounceOut,
+  reverse: false,
+  child: Center(
+    child: Container(
+      height: 100,
+      width: 100,
+      decoration: BoxDecoration(
+          color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
+          borderRadius: BorderRadius.circular(150)),
+      child: Image.asset(
+        'assets/images/logo_splash.png',
+        height: 50,
+        width: 50,
+      ),
+    ),
+  ));
 

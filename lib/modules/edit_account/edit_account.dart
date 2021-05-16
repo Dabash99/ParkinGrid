@@ -46,20 +46,7 @@ class EditAccountScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height:20,),
-                          Center(
-                            child: Container(
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(150)),
-                              child: Image.asset(
-                                'assets/images/logo_splash.png',
-                                height: 40,
-                                width: 40,
-                              ),
-                            ),
-                          ),
+                          logoNewDesign(),
                           SizedBox(
                             height: 20,
                           ),

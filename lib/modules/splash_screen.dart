@@ -5,6 +5,7 @@ import 'package:parking_gird/shared/components/components.dart';
 import 'dart:async';
 
 import 'package:parking_gird/shared/styles/colors.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -27,12 +28,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         backgroundColor: defaultColor.withOpacity(0.60),
         body: Container(
-          child: Center(
-            child: Image(
-                image: AssetImage(
-                  'assets/images/logo_splash.png',
-                ),height: 300,width: 300,
-                fit: BoxFit.cover,),
+          child: WidgetCircularAnimator(
+            innerColor: Colors.white,
+            outerColor: Colors.white,
+            child: Center(
+              child: Image(
+                  image: AssetImage(
+                    'assets/images/logo_splash.png',
+                  ),height: 300,width: 300,
+                  fit: BoxFit.cover,),
+            ),
           ),
         ));
   }

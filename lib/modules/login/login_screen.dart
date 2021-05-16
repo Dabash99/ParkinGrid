@@ -47,20 +47,7 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //Logo
-                        Center(
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(150)),
-                            child: Image.asset(
-                              'assets/images/logo_splash.png',
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ),
+                        logoNewDesign(),
                         SizedBox(
                           height: 30,
                         ),
