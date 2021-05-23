@@ -9,7 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
 import 'package:parking_gird/modules/parking_screen/parking_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
+import 'package:parking_gird/shared/styles/colors.dart';
 import 'dart:async';
+
+import 'package:parking_gird/util/disable.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,17 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Position currentpostion;
   final Completer<GoogleMapController> _controllerGoogle = Completer();
   static final CameraPosition _keyplex =
-      CameraPosition(target: LatLng(30.287265, 31.7406), zoom: 30.0);
+  CameraPosition(target: LatLng(30.287265, 31.7406), zoom: 30.0);
 
   // Method for retrieving the current location
   void locatepostion() async {
-    var position = await Geolocator.getCurrentPosition(
+    var position = await Geolocator. getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentpostion = position;
     var latlatposition = LatLng(position.latitude, position.longitude);
     var camera_Position = CameraPosition(target: latlatposition, zoom: 14);
     await mapController
-        .animateCamera(CameraUpdate.newCameraPosition(camera_Position));
+        . animateCamera(CameraUpdate. newCameraPosition(camera_Position));
   }
 
   BitmapDescriptor customIcon;
@@ -40,20 +43,21 @@ class _HomeScreenState extends State<HomeScreen> {
   //Change Map Marker
   @override
   void initState() {
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(15, 15)),
-            'assets/images/mapMarker.png')
-        .then((icon) {
+    BitmapDescriptor. fromAssetImage(ImageConfiguration(size: Size(15, 15)),
+        'assets/images/mapMarker.png')
+        . then((icon) {
       customIcon = icon;
     });
-    super.initState();
+    super. initState();
   }
-
   double distance = 0.0;
   String id;
   String name = 'Garage Name';
-
-  //Direction API فيزا يا حيوان
-
+  double opacityLevel = 0.0;
+  bool showhide = true;
+  void _changeOpacity() {
+    setState(() => opacityLevel = opacityLevel == 0 ? 1.0 : 0.0);
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
@@ -61,14 +65,14 @@ class _HomeScreenState extends State<HomeScreen> {
         // TODO: implement listener
       },
       builder: (context, state) {
-        var garageCubit = HomeCubit.get(context);
+        var garageCubit = HomeCubit. get(context);
         return Scaffold(
           appBar: customAppBar(title: 'Home Screen'),
           drawer: customDrawer(context),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
+          body: Column(
+            children: [
+              Expanded(
+                child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
@@ -121,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                   markers[garageCubit.getAllGarages
                                       .garages[index].garageName] = marker;
-                                  print('Markers : ${marker}');
+                                  print('Markers : $marker');
                                   print(
                                       'LSskjga : ${garageCubit.getAllGarages.garages[0].garageName}');
                                 }
@@ -135,16 +139,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets. all(10),
                             child: ClipOval(
                               child: Material(
-                                color: Color(0xff078547).withOpacity(0.9),
+                                color: Color(0xff078547). withOpacity(0.9),
                                 // button color
                                 child: InkWell(
                                   splashColor: Colors.green[100],
                                   onTap: () {
-                                    mapController.animateCamera(
-                                      CameraUpdate.newCameraPosition(
+                                    mapController. animateCamera(
+                                      CameraUpdate. newCameraPosition(
                                         CameraPosition(
                                           target: LatLng(
                                             currentpostion.latitude,
@@ -169,19 +173,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         // Show zoom buttons
                         Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
+                          padding: const EdgeInsets. only(left: 10.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               ClipOval(
                                 child: Material(
-                                  color: Color(0xff078547).withOpacity(0.9),
+                                  color: Color(0xff078547). withOpacity(0.9),
                                   // button color
                                   child: InkWell(
                                     splashColor: Colors.green[100],
                                     onTap: () {
-                                      mapController.animateCamera(
-                                        CameraUpdate.zoomIn(),
+                                      mapController. animateCamera(
+                                        CameraUpdate. zoomIn(),
                                       );
                                     },
                                     // inkwell color
@@ -233,16 +237,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context) =>
                                     FloatingActionButton.extended(
                                       onPressed: () {
+                                        _changeOpacity();
+                                        showhide = !showhide;
                                         garageCubit.getBestDistance(
                                             currentpostion: currentpostion);
+
                                         setState(() {
                                           distance = garageCubit.distance;
                                           name = Ganame;
                                           id = garageCubit.nearestGarageID;
                                         });
+                                        print('EEWE ======== $distance');
+                                        print('eeeeee============ ${DiableinMAP(DISTANCE: distance)}');
+
+                                        if(!DiableinMAP(DISTANCE: distance)){
+                                          showToastt(msg: 'ssssss', state: ToastStates.WARNING);
+                                        }
                                       },
-                                      label: Text(
-                                        'Get the Nearest Garage'.toUpperCase(),
+                                      label: Text(showhide ?
+                                        'show the Nearest Garage'.toUpperCase(): 'Hide the Nearest Garage'.toUpperCase(),
                                       ),
                                       icon: Image(
                                         image: AssetImage(
@@ -260,7 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Padding(
+              ),
+              AnimatedOpacity(
+                opacity: opacityLevel,
+                duration: const Duration(seconds: 1),
+                child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
                     width: double.infinity,
@@ -310,17 +327,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              navigateTo(context, ParkingScreen());
-                            },
-                            child: Text('Book Now')),
+                        IgnorePointer(
+                          ignoring: !DiableinMAP(DISTANCE:distance),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                navigateTo(context, ParkingScreen());
+                                if(DiableinMAP(DISTANCE: distance))
+                                {
+                                }
+                                else{
+                                  print('Nooooooooooo');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: DiableinMAP(DISTANCE:distance)
+                                      ? Color(0xff078547)
+                                      : defaultColor.withOpacity(0.5),
+                                  elevation: 0
+                              ),
+                              child: Text('Book Now')),
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

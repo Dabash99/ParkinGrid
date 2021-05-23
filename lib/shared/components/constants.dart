@@ -30,7 +30,7 @@ void printFullText(String text){
 String token ='';
 String googleMapAPI ='AIzaSyC28mzOn8puR988_9M8SUx8_1msrWxjmWU';
 String Ganame = CacheHelper.getData(key: 'Garage Name');
-String parkname = CacheHelper.getData(key: 'Parking Name');
+/*String parkname = CacheHelper.getData(key: 'Parking Name');
 String parkfloor =CacheHelper.getData(key: 'Parking Floor');
-String id= CacheHelper.getData(key: 'ID');
+String id= CacheHelper.getData(key: 'ID');*/
 bool isSelected =false;

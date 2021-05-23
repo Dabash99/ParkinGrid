@@ -1,5 +1,4 @@
 
-import 'package:blinking_point/blinking_point.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_gird/modules/login/login_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 5),
             ()=> navigateAndFinish(context, LoginScreen()));
   }
   @override
@@ -34,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Center(
             child: Image(
                 image: AssetImage(
-                  'assets/images/logo_splash.png',
+                  'assets/images/oie_221049429DjEMstz.gif',
                 ),height: 300,width: 300,
                 fit: BoxFit.cover,),
           ),

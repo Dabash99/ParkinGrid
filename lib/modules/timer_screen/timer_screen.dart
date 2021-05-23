@@ -9,8 +9,13 @@ import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
+import 'package:parking_gird/util/disable.dart';
 
 class TimerScreen extends StatelessWidget {
+  var parkingname;
+  var parkingfloor;
+  var id;
+  TimerScreen({Key key,@required this.parkingfloor, @required this.parkingname ,@required this.id}):super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -47,7 +52,7 @@ class TimerScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Park Floor : $parkfloor',
+                            'Park Floor : $parkingfloor',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -55,7 +60,7 @@ class TimerScreen extends StatelessWidget {
                             width: 15,
                           ),
                           Text(
-                            'Park Name : $parkname',
+                            'Park Name : $parkingname',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -112,6 +117,8 @@ class TimerScreen extends StatelessWidget {
                     .sendParkRequest(garageName: Ganame, id: id, status: 3);
                 AppCubit.get(context).removeParkData();
                 isSelected=false;
+                parkId=null;
+                Disabled(PARKID: parkId);
                 navigateAndFinish(context, ParkingScreen());
 
               },

@@ -1,6 +1,6 @@
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
 import 'package:parking_gird/modules/timer_screen/timer_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
@@ -8,6 +8,7 @@ import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
 import 'package:parking_gird/util/choose_color.dart';
+import 'package:parking_gird/util/disable.dart';
 
 class ParkingScreen extends StatefulWidget {
   @override
@@ -21,6 +22,12 @@ bool IGNORING({@required String color}) {
     return false;
   }
 }
+
+
+var parkId;
+var pName;
+var fName;
+
 /*bool TEXTIGNORING({@required String id}){
   if( id.isNotEmpty){
     return false;
@@ -88,63 +95,38 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                             .parkings[index].status),
                                     ontapFunction: () {
                                       setState(() {
-                                        print('22222 === $index');
                                         for (var i = 0;
                                             i <
                                                 idGarage.getAllParks.parkings
                                                     .length;
                                             i++) {
                                           if (i == index) {
+                                            //Reverse Selected State
                                             idGarage.getAllParks.parkings[index]
                                                     .selected =
                                                 !idGarage.getAllParks
                                                     .parkings[index].selected;
-                                            //===========================================
-                                           if(id.isNotEmpty){
-                                             isSelected = !isSelected;
-                                           }
-                                            //===========================================
-
-                                            print('Selected = $isSelected ');
-                                            if (isSelected) {
-                                              CacheHelper.saveData(
-                                                  key: 'ID',
-                                                  value: idGarage.getAllParks
-                                                      .parkings[index].sId);
-                                              CacheHelper.saveData(
-                                                  key: 'Parking Name',
-                                                  value: idGarage
-                                                      .getAllParks
-                                                      .parkings[index]
-                                                      .parkingName);
-                                              CacheHelper.saveData(
-                                                  key: 'Parking Floor',
-                                                  value: idGarage
-                                                      .getAllParks
-                                                      .parkings[index]
-                                                      .parkingFloor);
-                                            } else {
-                                              CacheHelper.removeData(
-                                                  key: 'Parking Name');
-                                              CacheHelper.removeData(
-                                                  key: 'Parking Floor');
-                                              CacheHelper.removeData(key: 'ID');
-                                              showToastt(
-                                                  msg: 'Please Select Park',
-                                                  state: ToastStates.WARNING);
-                                            }
+                                            parkId = idGarage.getAllParks
+                                                .parkings[index].sId;
+                                            pName = idGarage.getAllParks
+                                                .parkings[index].parkingName;
+                                            fName = idGarage.getAllParks
+                                                .parkings[index].parkingFloor;
+                                            print('Selected ID = $parkId');
                                           } else {
                                             idGarage.getAllParks.parkings[i]
-                                                .selected = true;
+                                                .selected = false;
+                                          }
+                                          if(idGarage.getAllParks.parkings[index].selected == false){
+                                            parkId = null;
                                           }
                                         }
-                                        print('### = $id');
                                       });
                                     },
                                     Width: idGarage.getAllParks.parkings[index]
                                             .selected
-                                        ? 0
-                                        : 8,
+                                        ? 8
+                                        : 0,
                                   );
                                 }),
                               ),
@@ -152,20 +134,27 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                 height: 5,
                               ),
                               IgnorePointer(
-                                ignoring: !isSelected,
+                                ignoring: !Disabled(PARKID: parkId),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: isSelected
+                                        primary: Disabled(PARKID: parkId)
                                             ? Color(0xff078547)
-                                            : Colors.black),
+                                            : defaultColor.withOpacity(0.5),
+                                      elevation: 0
+                                    ),
                                     onPressed: () {
-                                      if (isSelected) {
+                                      if (Disabled(PARKID: parkId)) {
                                         idGarage.sendParkRequest(
                                             garageName: Ganame,
-                                            id: id,
+                                            id: parkId,
                                             status: 1);
                                         navigateAndFinish(
-                                            context, TimerScreen());
+                                            context,
+                                            TimerScreen(
+                                              parkingname: pName,
+                                              parkingfloor: fName,
+                                              id: parkId,
+                                            ));
                                       } else {
                                         showToastt(
                                             msg: 'Please Select Park',

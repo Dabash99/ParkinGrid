@@ -36,7 +36,7 @@ class Parkings {
   String parkingFloor;
   String parkingName;
   String status;
-  bool selected =true;
+  bool selected =false;
 
   Parkings(
       {this.userData,
