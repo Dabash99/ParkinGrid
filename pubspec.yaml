@@ -43,6 +43,7 @@ dependencies:
   circular_countdown_timer: ^0.2.0
   widget_circular_animator: ^0.1.5+1
   blinking_point: ^1.0.0+6
+  flutter_polyline_points: ^1.0.0
 
 
 

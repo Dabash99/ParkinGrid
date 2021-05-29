@@ -25,9 +25,9 @@ class LoadingNearestGarageDataState extends HomeState {}
 class SuccessNearestGarageDataState extends HomeState
 {
 
-  final  dis, nearestGarageID;
+  final  dis, nearestGarageID ,nearestLat , nearestLng;
 
-  SuccessNearestGarageDataState(this.dis, this.nearestGarageID);
+  SuccessNearestGarageDataState(this.dis, this.nearestGarageID, this.nearestLat,this.nearestLng);
 
 }
 class ErrorNearestGarageDataState extends HomeState {}

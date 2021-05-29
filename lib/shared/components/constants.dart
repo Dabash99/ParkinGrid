@@ -28,7 +28,7 @@ void printFullText(String text){
 
 
 String token ='';
-String googleMapAPI ='AIzaSyC28mzOn8puR988_9M8SUx8_1msrWxjmWU';
+String googleMapAPI ='AIzaSyBzAkqmEqPw2S98nAA6oG31iqu_L6mw4n0';
 String Ganame = CacheHelper.getData(key: 'Garage Name');
 /*String parkname = CacheHelper.getData(key: 'Parking Name');
 String parkfloor =CacheHelper.getData(key: 'Parking Floor');

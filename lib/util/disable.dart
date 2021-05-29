@@ -9,8 +9,8 @@ bool Disabled({@required var PARKID}){
   }
 }
 
-bool DiableinMAP({@required var DISTANCE }){
-if(DISTANCE < 1.5){
+bool DiableinMAP({@required dynamic DISTANCE }){
+if(DISTANCE < 2){
   return true;
 }else {return false;}
 }

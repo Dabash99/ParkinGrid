@@ -8,7 +8,7 @@
         android:label="parkinGrid"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyC28mzOn8puR988_9M8SUx8_1msrWxjmWU"/>
+           android:value="AIzaSyBzAkqmEqPw2S98nAA6oG31iqu_L6mw4n0"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

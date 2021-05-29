@@ -50,14 +50,16 @@ class HomeCubit extends Cubit<HomeState> {
       emit(ErrorAllGaragesState());
     });
   }
-
   Position currentpositon;
   double distance = 0.0;
   String name ;
   String nearestGarageID;
+  var nearestLat;
+  var nearestLng;
   void getBestDistance({@required Position currentpostion})  {
     emit(LoadingNearestGarageDataState());
     var scope = {};
+
     for (var index = 0; index < getAllGarages.garages.length; index++) {
       var d = coordinateDistance(
           getAllGarages.garages[index].lat,
@@ -78,10 +80,12 @@ class HomeCubit extends Cubit<HomeState> {
     getAllGarages.garages.forEach((element) {
       if (element.sId == nearestGarageID) {
         CacheHelper.saveData(key: 'Garage Name', value: element.garageName);
+        nearestLat = element.lat;
+        nearestLng = element.long;
       }
     }
     );
-    emit(SuccessNearestGarageDataState(distance, nearestGarageID));
+    emit(SuccessNearestGarageDataState(distance, nearestGarageID,nearestLat,nearestLng));
   }
 
   GetAllParks getAllParks;

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:parking_gird/models/login_model.dart';
-import 'package:parking_gird/modules/login/login_screen.dart';
-import 'package:parking_gird/shared/components/components.dart';
+
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/end_points.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
@@ -25,7 +24,7 @@ class AppCubit extends Cubit<AppState> {
       token: token,
     ).then((value) {
       loginModel = UserLoginData.fromJson(value.data);
-      printFullText('DAtaaaa ====== ${value.data}');
+      printFullText('DAtaaaa ====== ${loginModel.firstName}');
       emit(SuccessUserDataState(loginModel));
     }).catchError((error) {
       print(error.toString());
