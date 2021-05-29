@@ -12,7 +12,9 @@ import 'package:parking_gird/util/disable.dart';
 
 class ParkingScreen extends StatefulWidget {
   @override
+  var garage;
   _ParkingScreenState createState() => _ParkingScreenState();
+  ParkingScreen({Key key,@required this.garage}):super(key: key);
 }
 
 bool IGNORING({@required String color}) {
@@ -41,10 +43,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getGarageParks(),
+      create: (context) => HomeCubit()..getGarageParks(GaName:  widget.garage),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
-          // TODO: implement listener
+
         },
         builder: (context, state) {
           var idGarage = HomeCubit.get(context);
@@ -69,7 +71,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                           child: Column(
                             children: [
                               Text(
-                                Ganame,
+                                widget.garage,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,

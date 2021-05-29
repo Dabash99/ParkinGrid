@@ -54,11 +54,12 @@ class HomeCubit extends Cubit<HomeState> {
   double distance = 0.0;
   String name ;
   String nearestGarageID;
+  var scope = {};
+
   var nearestLat;
   var nearestLng;
   void getBestDistance({@required Position currentpostion})  {
     emit(LoadingNearestGarageDataState());
-    var scope = {};
 
     for (var index = 0; index < getAllGarages.garages.length; index++) {
       var d = coordinateDistance(
@@ -66,6 +67,9 @@ class HomeCubit extends Cubit<HomeState> {
           getAllGarages.garages[index].long,
           currentpostion.latitude,
           currentpostion.longitude);
+      createPolylines(Position destination){
+
+      };
       scope['${getAllGarages.garages[index].sId}'] = d;
       print('Scope = $scope');
     }
@@ -85,15 +89,15 @@ class HomeCubit extends Cubit<HomeState> {
       }
     }
     );
-    emit(SuccessNearestGarageDataState(distance, nearestGarageID,nearestLat,nearestLng));
+    emit(SuccessNearestGarageDataState(distance, nearestGarageID,nearestLat,nearestLng,scope));
   }
 
   GetAllParks getAllParks;
 
-  void getGarageParks(){
+  void getGarageParks({@required String GaName}){
     emit(LoadingAllParksDataState());
     DioHelper.getData(url: GETPARKS,query:{
-      'garagename': Ganame
+      'garagename': GaName
     }).then((value) {
       getAllParks=GetAllParks.fromJson(value.data);
       emit(SuccessAllParksDataState(getAllParks));

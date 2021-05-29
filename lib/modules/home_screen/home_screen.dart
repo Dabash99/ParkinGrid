@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   double distance = 0.0;
-
+  var cc =GlobalKey();
   // Object for PolylinePoints
   PolylinePoints polylinePoints;
   var lat, lng;
@@ -85,10 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
-
     // Defining an ID
     var id = PolylineId('poly');
-
     // Initializing Polyline
      polyline = Polyline(
       polylineId: id,
@@ -100,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
     polylines[id] = polyline;
     print('ssssss ======== $polylineCoordinates');
   }
-
+  var g='';
   String id;
   String name = 'Garage Name';
   double opacityLevel = 0.0;
@@ -119,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return TotalDistance;
   }
-  void _changeOpacity() {
-    setState(() => opacityLevel = opacityLevel == 0 ? 1.0 : 0.0);
+  void _changeOpacity({@required double value}) {
+    setState(() => opacityLevel = value);
   }
 
   @override
@@ -128,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
         // TODO: implement listener
+
       },
       builder: (context, state) {
         var garageCubit = HomeCubit.get(context);
@@ -186,6 +185,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                       snippet: garageCubit.getAllGarages
                                           .garages[index].cityName,
                                     ),
+                                    onTap: (){
+                                      garageCubit.getBestDistance(
+                                          currentpostion: currentpostion);
+                                      garageCubit.scope.forEach((key, value) {
+                                        if(key ==garageCubit.getAllGarages.garages[index].sId){
+                                          setState(() {
+                                            distance= value;
+                                          });
+                                        }
+                                      });
+                                       setState(() {
+                                         g =garageCubit.getAllGarages.garages[index].garageName;
+                                         showhide=false;
+                                         _changeOpacity(value: 1.0);
+
+                                       });
+                                    }
                                   );
                                   markers[garageCubit.getAllGarages
                                       .garages[index].garageName] = marker;
@@ -304,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     garageCubit.getBestDistance(
                                         currentpostion: currentpostion);
                                     setState(() {
-                                      name = Ganame;
+                                      g = Ganame;
                                       lat = garageCubit.nearestLat;
                                       lng = garageCubit.nearestLng;
                                       id = garageCubit.nearestGarageID;
@@ -329,22 +345,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                           longitude: garageCubit.nearestLng,
                                           latitude: garageCubit.nearestLat));
                                       var d = totalDistance(polylineCoordinates: polylineCoordinates);
-                                      var _placeDistance = double.parse((d).toStringAsFixed(2));;
+                                      var _placeDistance = double.parse((d).toStringAsFixed(2));
                                       setState(() {
                                         distance = _placeDistance;
-
                                       });
                                       print('33333333333444---- $polylineCoordinates');
 
                                     } else {
                                       print('5555555555');
-
-                                      /*await _createPolylines(Position(
-                                          longitude: null, latitude: null));*/
+                                      polylineCoordinates=[];
+                                      await _createPolylines(Position(
+                                          longitude: null, latitude: null));
                                     }
 
-                                    _changeOpacity();
-
+                                    if(showhide){
+                                      _changeOpacity(value: 0);
+                                    }
+                                    else{_changeOpacity(value: 1);}
                                     print('EEWE ======== $distance');
                                     print(
                                         'eeeeee============ ${DiableinMAP(DISTANCE: distance)}');
@@ -403,8 +420,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          '${name.toUpperCase()}', // Garage Name
+                        Text( '${g.toUpperCase()}',
+                          key: cc,
+                          // Garage Name
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -436,7 +454,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ignoring: !DiableinMAP(DISTANCE: distance),
                           child: ElevatedButton(
                               onPressed: () {
-                                navigateTo(context, ParkingScreen());
+                                navigateTo(context, ParkingScreen(garage: g,));
                                 if (DiableinMAP(DISTANCE: distance)) {
                                 } else {
                                   print('Nooooooooooo');
@@ -447,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? Color(0xff078547)
                                       : defaultColor.withOpacity(0.5),
                                   elevation: 0),
-                              child: Text('Book Now')),
+                              child: Text('Open Garage ')),
                         ),
                       ],
                     ),
