@@ -15,7 +15,11 @@ class TimerScreen extends StatelessWidget {
   var parkingname;
   var parkingfloor;
   var id;
-  TimerScreen({Key key,@required this.parkingfloor, @required this.parkingname ,@required this.id}):super(key: key);
+  dynamic garageName;
+  dynamic distance;
+  TimerScreen({Key key,@required this.parkingfloor,
+    @required this.parkingname ,@required this.id, @required this.garageName,@required this.distance
+  }):super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -119,7 +123,8 @@ class TimerScreen extends StatelessWidget {
                 isSelected=false;
                 parkId=null;
                 Disabled(PARKID: parkId);
-                navigateAndFinish(context, ParkingScreen());
+                //navigateTo(context, ParkingScreen(garage: garageName,distance: distance,));
+                navigateAndFinish(context, ParkingScreen(garage: garageName,distance: distance,));
 
               },
               child: Text('Cancel Booking',style: TextStyle(

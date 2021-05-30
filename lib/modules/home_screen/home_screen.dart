@@ -40,7 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   BitmapDescriptor customIcon;
   final Map<String, Marker> markers = {};
-
+bool textIGnoring({@required String text}){
+  if(text == 'Please Select a Garage'){
+    return true;
+  }else{return false;}
+}
   //Change Map Marker
   @override
   void initState() {
@@ -53,42 +57,49 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   double distance = 0.0;
-  var cc =GlobalKey();
+  var cc = GlobalKey();
+
   // Object for PolylinePoints
   PolylinePoints polylinePoints;
   var lat, lng;
 
 // List of coordinates to join
   List<LatLng> polylineCoordinates = [];
+  dynamic PolylinesResult;
 
 // Map storing polylines created by connecting
 // two points
   Map<PolylineId, Polyline> polylines = {};
   var polyline;
-  _createPolylines(Position destination) async {
+
+  Future<dynamic> _createPolylines({@required Position destination}) async {
     // Initializing PolylinePoints
     polylinePoints = PolylinePoints();
 
     // Generating the list of coordinates to be used for
     // drawing the polylines
-    var result = await polylinePoints.getRouteBetweenCoordinates(
+     await polylinePoints
+        .getRouteBetweenCoordinates(
       'AIzaSyBzAkqmEqPw2S98nAA6oG31iqu_L6mw4n0', // Google Maps API Key
       PointLatLng(currentpostion.latitude, currentpostion.longitude),
       PointLatLng(destination.latitude, destination.longitude),
       travelMode: TravelMode.driving,
-    );
+    )
+        .then((value) {
+      PolylinesResult = value.points;
+    });
 
     // Adding the coordinates to the list
-    print('result ========== ${result.points}');
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+    print('result ========== ${PolylinesResult}');
+    if (PolylinesResult.isNotEmpty) {
+      PolylinesResult.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
     // Defining an ID
     var id = PolylineId('poly');
     // Initializing Polyline
-     polyline = Polyline(
+    polyline = Polyline(
       polylineId: id,
       color: Colors.blueAccent,
       points: polylineCoordinates,
@@ -98,11 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
     polylines[id] = polyline;
     print('ssssss ======== $polylineCoordinates');
   }
-  var g='';
+
+  var g = 'Please Select a Garage';
   String id;
   String name = 'Garage Name';
   double opacityLevel = 0.0;
   bool showhide = true;
+
   double totalDistance({
     @required dynamic polylineCoordinates,
   }) {
@@ -117,16 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return TotalDistance;
   }
-  void _changeOpacity({@required double value}) {
-    setState(() => opacityLevel = value);
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
         // TODO: implement listener
-
       },
       builder: (context, state) {
         var garageCubit = HomeCubit.get(context);
@@ -171,43 +181,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .getAllGarages.garages.length;
                                     index++) {
                                   final marker = Marker(
-                                    markerId: MarkerId(garageCubit.getAllGarages
-                                        .garages[index].garageName),
-                                    icon: customIcon,
-                                    position: LatLng(
-                                        garageCubit
-                                            .getAllGarages.garages[index].lat,
-                                        garageCubit
-                                            .getAllGarages.garages[index].long),
-                                    infoWindow: InfoWindow(
-                                      title: garageCubit.getAllGarages
-                                          .garages[index].garageName,
-                                      snippet: garageCubit.getAllGarages
-                                          .garages[index].cityName,
-                                    ),
-                                    onTap: (){
-                                      garageCubit.getBestDistance(
-                                          currentpostion: currentpostion);
-                                      garageCubit.scope.forEach((key, value) {
-                                        if(key ==garageCubit.getAllGarages.garages[index].sId){
-                                          setState(() {
-                                            distance= value;
-                                          });
-                                        }
-                                      });
-                                       setState(() {
-                                         g =garageCubit.getAllGarages.garages[index].garageName;
-                                         showhide=false;
-                                         _changeOpacity(value: 1.0);
+                                      markerId: MarkerId(garageCubit
+                                          .getAllGarages
+                                          .garages[index]
+                                          .garageName),
+                                      icon: customIcon,
+                                      position: LatLng(
+                                          garageCubit
+                                              .getAllGarages.garages[index].lat,
+                                          garageCubit.getAllGarages
+                                              .garages[index].long),
+                                      infoWindow: InfoWindow(
+                                        title: garageCubit.getAllGarages
+                                            .garages[index].garageName,
+                                        snippet: garageCubit.getAllGarages
+                                            .garages[index].cityName,
+                                      ),
+                                      onTap: () async {
 
-                                       });
-                                    }
-                                  );
+                                        dynamic _placeDistance;
+                                        await _createPolylines(
+                                            destination: Position(
+                                                longitude: garageCubit.getAllGarages.garages[index].long,
+                                                latitude:
+                                                garageCubit.getAllGarages.garages[index].lat));
+                                        _placeDistance = totalDistance(
+                                            polylineCoordinates:
+                                            polylineCoordinates);
+                                         _placeDistance =
+                                        double.parse((_placeDistance).toStringAsFixed(2));
+                                         print('Distance === ${_placeDistance}');
+                                        //d = totalDistance(polylineCoordinates: coordintae);
+                                        setState(() {
+                                          g = garageCubit.getAllGarages
+                                              .garages[index].garageName;
+                                          distance =_placeDistance;
+                                          showhide = false;
+                                          polylineCoordinates=[];
+                                        });
+                                      });
                                   markers[garageCubit.getAllGarages
                                       .garages[index].garageName] = marker;
                                   print('Markers : $marker');
-                                  print(
-                                      'LSskjga : ${garageCubit.getAllGarages.garages[0].garageName}');
                                 }
                               });
                             },
@@ -341,27 +356,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                         'Position ==== ${Position(longitude: lng, latitude: lat)}');
                                     if (!showhide) {
                                       print('A7aaaaaaa');
-                                      await _createPolylines(Position(
-                                          longitude: garageCubit.nearestLng,
-                                          latitude: garageCubit.nearestLat));
-                                      var d = totalDistance(polylineCoordinates: polylineCoordinates);
-                                      var _placeDistance = double.parse((d).toStringAsFixed(2));
+                                      await _createPolylines(
+                                          destination: Position(
+                                              longitude: garageCubit.nearestLng,
+                                              latitude:
+                                                  garageCubit.nearestLat));
+                                      var d = totalDistance(
+                                          polylineCoordinates:
+                                              polylineCoordinates);
+                                      var _placeDistance =
+                                          double.parse((d).toStringAsFixed(2));
                                       setState(() {
                                         distance = _placeDistance;
                                       });
-                                      print('33333333333444---- $polylineCoordinates');
-
+                                      print(
+                                          '33333333333444---- $polylineCoordinates');
                                     } else {
                                       print('5555555555');
-                                      polylineCoordinates=[];
-                                      await _createPolylines(Position(
-                                          longitude: null, latitude: null));
+                                      polylineCoordinates = [];
+                                      await _createPolylines(
+                                          destination: Position(
+                                              longitude: null, latitude: null));
                                     }
 
-                                    if(showhide){
-                                      _changeOpacity(value: 0);
-                                    }
-                                    else{_changeOpacity(value: 1);}
                                     print('EEWE ======== $distance');
                                     print(
                                         'eeeeee============ ${DiableinMAP(DISTANCE: distance)}');
@@ -373,11 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }
                                   },
                                   label: Text(
-                                    showhide
-                                        ? 'show the Nearest Garage'
-                                            .toUpperCase()
-                                        : 'Hide the Nearest Garage'
-                                            .toUpperCase(),
+                                    'show the Nearest Garage'.toUpperCase(),
                                   ),
                                   icon: Image(
                                     image: AssetImage(
@@ -396,79 +409,77 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              AnimatedOpacity(
-                opacity: opacityLevel,
-                duration: const Duration(seconds: 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 3,
-                          spreadRadius: 2,
-                          offset: Offset(2, 5),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 3,
+                        spreadRadius: 2,
+                        offset: Offset(2, 5),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        '${g.toUpperCase()}',
+                        key: cc,
+                        // Garage Name
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text( '${g.toUpperCase()}',
-                          key: cc,
-                          // Garage Name
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Distance to garage : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Distance to garage : ',
-                              style: TextStyle(
-                                fontSize: 16,
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '${distance} Km',
+                            style: TextStyle(
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${distance} Km',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff078547)),
-                            ),
-                          ],
-                        ),
-                        IgnorePointer(
-                          ignoring: !DiableinMAP(DISTANCE: distance),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                navigateTo(context, ParkingScreen(garage: g,));
-                                if (DiableinMAP(DISTANCE: distance)) {
-                                } else {
-                                  print('Nooooooooooo');
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  primary: DiableinMAP(DISTANCE: distance)
-                                      ? Color(0xff078547)
-                                      : defaultColor.withOpacity(0.5),
-                                  elevation: 0),
-                              child: Text('Open Garage ')),
-                        ),
-                      ],
-                    ),
+                                color: Color(0xff078547)),
+                          ),
+                        ],
+                      ),
+                      IgnorePointer(
+                        ignoring: textIGnoring(text: g),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              navigateTo(
+                                  context,
+                                  ParkingScreen(
+                                    garage: g,
+                                    distance: distance,
+                                  ));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: !textIGnoring(text: g)
+                                    ? Color(0xff078547)
+                                    : defaultColor.withOpacity(0.5),
+                                elevation: 0),
+                            child: Text('Open Garage ')),
+                      ),
+                    ],
                   ),
                 ),
               ),

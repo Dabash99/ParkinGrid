@@ -2,6 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
+import 'package:parking_gird/modules/home_screen/home_screen.dart';
 import 'package:parking_gird/modules/timer_screen/timer_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
@@ -12,9 +13,9 @@ import 'package:parking_gird/util/disable.dart';
 
 class ParkingScreen extends StatefulWidget {
   @override
-  var garage;
+  dynamic garage,distance;
   _ParkingScreenState createState() => _ParkingScreenState();
-  ParkingScreen({Key key,@required this.garage}):super(key: key);
+  ParkingScreen({Key key,@required this.garage,@required this.distance}):super(key: key);
 }
 
 bool IGNORING({@required String color}) {
@@ -24,22 +25,24 @@ bool IGNORING({@required String color}) {
     return false;
   }
 }
+String buttonText='';
+
 
 
 var parkId;
 var pName;
 var fName;
 
-/*bool TEXTIGNORING({@required String id}){
-  if( id.isNotEmpty){
-    return false;
-  }
-  else {
-    return true;
-  }
-}*/
-
+String TextButtonString({@required double Dist}){
+  if(Dist<2){buttonText = 'Book Now';}
+  else{buttonText = 'Back';}
+}
 class _ParkingScreenState extends State<ParkingScreen> {
+  @override
+  void initState(){
+    super.initState();
+    TextButtonString(Dist: widget.distance);
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -135,17 +138,19 @@ class _ParkingScreenState extends State<ParkingScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              IgnorePointer(
-                                ignoring: !Disabled(PARKID: parkId),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Disabled(PARKID: parkId)
-                                            ? Color(0xff078547)
-                                            : defaultColor.withOpacity(0.5),
-                                      elevation: 0
-                                    ),
-                                    onPressed: () {
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Disabled(PARKID: parkId)
+                                          ? Color(0xff078547)
+                                          : defaultColor.withOpacity(0.5),
+                                    elevation: 0
+                                  ),
+                                  onPressed: () {
+                                    if(DiableinMAP(DISTANCE: widget.distance)){
+                                      print('TRUE');
                                       if (Disabled(PARKID: parkId)) {
+                                        print('TRUE2');
+
                                         idGarage.sendParkRequest(
                                             garageName: Ganame,
                                             id: parkId,
@@ -153,18 +158,24 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                         navigateAndFinish(
                                             context,
                                             TimerScreen(
+                                              garageName: widget.garage,
                                               parkingname: pName,
                                               parkingfloor: fName,
                                               id: parkId,
+                                              distance: widget.distance,
                                             ));
                                       } else {
+                                        print('False2');
                                         showToastt(
                                             msg: 'Please Select Park',
                                             state: ToastStates.WARNING);
                                       }
-                                    },
-                                    child: Text('Book Now')),
-                              ),
+                                    }else{
+                                      print('False');
+                                      navigateAndFinish(context, HomeScreen());
+                                    }
+                                  },
+                                  child: Text('$buttonText')),
                               SizedBox(
                                 height: 16,
                               ),

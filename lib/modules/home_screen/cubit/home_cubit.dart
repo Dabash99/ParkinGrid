@@ -2,10 +2,10 @@ import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 import 'package:parking_gird/models/locations.dart';
-import 'package:parking_gird/models/login_model.dart';
 import 'package:parking_gird/models/parks_model.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/end_points.dart';
@@ -58,6 +58,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   var nearestLat;
   var nearestLng;
+
   void getBestDistance({@required Position currentpostion})  {
     emit(LoadingNearestGarageDataState());
 
@@ -67,9 +68,7 @@ class HomeCubit extends Cubit<HomeState> {
           getAllGarages.garages[index].long,
           currentpostion.latitude,
           currentpostion.longitude);
-      createPolylines(Position destination){
 
-      };
       scope['${getAllGarages.garages[index].sId}'] = d;
       print('Scope = $scope');
     }
