@@ -93,10 +93,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   GetAllParks getAllParks;
 
-  void getGarageParks({@required String GaName}){
+  void getGarageParks({@required String GaName,String mode}){
     emit(LoadingAllParksDataState());
     DioHelper.getData(url: GETPARKS,query:{
-      'garagename': GaName
+      'garagename': GaName,
+      'mode': mode?? ''
     }).then((value) {
       getAllParks=GetAllParks.fromJson(value.data);
       emit(SuccessAllParksDataState(getAllParks));

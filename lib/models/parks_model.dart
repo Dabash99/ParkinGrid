@@ -36,6 +36,8 @@ class Parkings {
   String parkingFloor;
   String parkingName;
   String status;
+  String Mode;
+
   bool selected =false;
 
   Parkings(
@@ -53,6 +55,7 @@ class Parkings {
     parkingFloor = json['parking_Floor'];
     parkingName = json['parking_Name'];
     status = json['status'];
+    Mode =json['mode'];
   }
 
   Map<String, dynamic> toJson() {

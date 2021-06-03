@@ -245,7 +245,7 @@ Widget defaultListTile(context,
       ),
       leading: icon,
       onTap: () {
-        navigateAndFinish(context, widget);
+        navigateTo(context, widget);
       },
     );
 
@@ -256,7 +256,8 @@ Widget buildParks(
         @required String name,
         @required Function ontapFunction,
         @required double Width,
-        @required bool Ignoring}) =>
+        @required bool Ignoring,
+        @required String Mode}) =>
     Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
@@ -264,21 +265,39 @@ Widget buildParks(
         child: IgnorePointer(
           ignoring: Ignoring,
           child: Container(
-            height: 100,
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: color,
-              border: Border.all(color: Colors.green.shade900, width: Width),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                name.toUpperCase(),
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              height: 100,
+              padding: EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                color: color,
+                border: Border.all(color: Colors.green.shade900, width: Width),
+                borderRadius: BorderRadius.circular(12),
               ),
-            ),
-          ),
+              child: Column(
+                children: [
+                  Spacer(),
+                  Text(
+                    name.toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Container(
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(12))),
+                    child: Text(
+                      Mode,
+                      style: TextStyle(color: Colors.white,fontSize: 12),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              )),
         ),
       ),
     );

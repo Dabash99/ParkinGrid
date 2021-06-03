@@ -8,14 +8,16 @@ import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
+import 'package:parking_gird/util/Mode.dart';
 import 'package:parking_gird/util/choose_color.dart';
 import 'package:parking_gird/util/disable.dart';
 
 class ParkingScreen extends StatefulWidget {
   @override
   dynamic garage,distance;
+  String mode;
   _ParkingScreenState createState() => _ParkingScreenState();
-  ParkingScreen({Key key,@required this.garage,@required this.distance}):super(key: key);
+  ParkingScreen({Key key,@required this.garage,@required this.distance,this.mode}):super(key: key);
 }
 
 bool IGNORING({@required String color}) {
@@ -46,10 +48,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getGarageParks(GaName:  widget.garage),
+      create: (context) => HomeCubit()..getGarageParks(GaName:  widget.garage,mode: widget.mode),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
-
+          print('PArking Mode === ${widget.mode}');
         },
         builder: (context, state) {
           var idGarage = HomeCubit.get(context);
@@ -98,6 +100,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                     color: ChooseColor(
                                         status: idGarage.getAllParks
                                             .parkings[index].status),
+                                    Mode: Mode(mode: idGarage.getAllParks.parkings[index].Mode),
                                     ontapFunction: () {
                                       setState(() {
                                         for (var i = 0;
@@ -200,7 +203,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   buildInfoPark(
-                                      string: 'Reserved', color: Colors.red),
+                                      string: 'Parked', color: Colors.red),
                                   SizedBox(
                                     width: 16,
                                   ),
