@@ -25,19 +25,16 @@ class RegisterScreen extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           // TODO: implement listener
-
           if (state is RegisterSuccessState) {
             if (state.loginModel.status) {
               print(state.loginModel.token);
-              CacheHelper.saveData(key: 'token', value: state.loginModel.token,
-              )
+              CacheHelper.saveData(key: 'token', value: state.loginModel.token,)
                   .then((value) {
                 token=state.loginModel.token;
-
                 navigateAndFinish(context, HomeScreen());
               });
               showToastt(msg: state.loginModel.msg, state: ToastStates.SUCCESS);
-            } else {
+            } else{
               showToastt(msg: state.loginModel.msg, state: ToastStates.ERROR);
             }
           }
@@ -55,7 +52,19 @@ class RegisterScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      logoNewDesign(),
+                      Center(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
+                              borderRadius: BorderRadius.circular(150)),
+                          child: Image.asset(
+                            'assets/images/logo_splash.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -113,6 +122,9 @@ class RegisterScreen extends StatelessWidget {
                                     if (value.isEmpty) {
                                       return 'Required Field';
                                     }
+                                    if(!value.contains('@')){
+                                      return 'Please Enter Valid Email';
+                                    }
                                   },
                                   label: 'Email Address',
                                   prefix: null),
@@ -129,6 +141,9 @@ class RegisterScreen extends StatelessWidget {
                                 validate: (String value) {
                                   if (value.isEmpty) {
                                     return 'Required Field';
+                                  }
+                                  if (value.length< 8){
+                                    return 'Password at least 8 characters';
                                   }
                                 },
                                 isPassword:
@@ -149,6 +164,9 @@ class RegisterScreen extends StatelessWidget {
                                         if (value.isEmpty) {
                                           return 'Required Field';
                                         }
+                                        if(value.length< 2){
+                                          return 'Car Letter at least 2 Letters';
+                                        }
                                       },
                                       label: 'Car Letter',
                                     ),
@@ -163,6 +181,9 @@ class RegisterScreen extends StatelessWidget {
                                       validate: (String value) {
                                         if (value.isEmpty) {
                                           return 'Required Field';
+                                        }
+                                        if(value.length< 2){
+                                          return 'Car Number at least 2 Numbers';
                                         }
                                       },
                                       label: 'Car Number',
@@ -179,6 +200,9 @@ class RegisterScreen extends StatelessWidget {
                                   validate: (String value) {
                                     if (value.isEmpty) {
                                       return 'Required Field';
+                                    }
+                                    if(value.length == 10){
+                                      return 'InValid Phone Number';
                                     }
                                   },
                                   label: 'Phone Number',

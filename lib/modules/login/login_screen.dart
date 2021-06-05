@@ -1,4 +1,3 @@
-import 'package:blinking_point/blinking_point.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,6 @@ import 'package:parking_gird/modules/register_screen/register_screen.dart';
 import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
-import 'package:parking_gird/shared/styles/colors.dart';
 
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -25,13 +23,16 @@ class LoginScreen extends StatelessWidget {
             if (state.loginModel.status) {
               CacheHelper.saveData(key: 'token', value: state.loginModel.token)
                   .then((value) {
-                token = state.loginModel.token;
+                    token=state.loginModel.token;
                 navigateAndFinish(context, HomeScreen());
               });
               showToastt(msg: state.loginModel.msg, state: ToastStates.SUCCESS);
             } else {
               showToastt(msg: state.loginModel.msg, state: ToastStates.ERROR);
             }
+          }
+          if(state is LoginErrorState){
+            showToastt(msg: 'Invalid Email or Password', state: ToastStates.ERROR);
           }
         },
         builder: (context, state) {
@@ -81,6 +82,9 @@ class LoginScreen extends StatelessWidget {
                                       if (value.isEmpty) {
                                         return 'Please enter Your Email Address';
                                       }
+                                      if(!value.contains('@')){
+                                        return 'Please Enter Valid Email';
+                                      }
                                     },
                                     label: 'Email Address',
                                     prefix: Icons.email_rounded),
@@ -95,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                                         .changePasswordVisibility();
                                   },
                                   validate: (String value) {
-                                    if (value.isEmpty) {
+                                    if (value.isEmpty || value.length < 8) {
                                       return 'Password is too short';
                                     }
                                   },

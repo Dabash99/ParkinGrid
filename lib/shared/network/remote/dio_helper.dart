@@ -10,6 +10,9 @@ class DioHelper {
       BaseOptions(
         baseUrl: 'https://graduation-project-apis.herokuapp.com/',
         receiveDataWhenStatusError: true,
+        headers:  {
+          'Content-Type': 'application/json',
+        }
       ),
     );
   }
@@ -70,6 +73,17 @@ class DioHelper {
     return dio.put(
       url,
       queryParameters: query,
+      data: data,
+    );
+  }
+
+  static Future<Response> RegisterPost({
+    @required String url,
+    Map<String, dynamic> data,
+  }) async
+  {
+    return await dio.post(
+      url,
       data: data,
     );
   }

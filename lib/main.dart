@@ -11,28 +11,21 @@ import 'package:parking_gird/shared/network/remote/dio_helper.dart';
 import 'package:parking_gird/shared/styles/themes.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
 
-  Widget widget;
   await CacheHelper.init();
-  token = CacheHelper.getData(key: 'token');
-  if (token != null) {
-    widget = HomeScreen();
-  } else {
-    widget = SplashScreen();
-  }
 
-  runApp(MyApp(startWidget: widget));
+  token = CacheHelper.getData(key: 'token');
+
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
-  final Widget startWidget;
 
-  MyApp({this.startWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +45,7 @@ class MyApp extends StatelessWidget {
             color: Colors.green,
             title: 'Parking Grid',
             theme: lightTheme,
-            home: startWidget,
+            home: SplashScreen(),
           );
         },
       ),
