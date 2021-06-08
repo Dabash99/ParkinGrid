@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Position currentpostion;
   final Completer<GoogleMapController> _controllerGoogle = Completer();
   static final CameraPosition _keyplex =
-  CameraPosition(target: LatLng(30.287265, 31.7406), zoom: 30.0);
+  CameraPosition(target: LatLng(0, 0), zoom: 15.0);
 
   // Method for retrieving the current location
   void locatepostion() async {
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Initializing Polyline
     polyline = Polyline(
       polylineId: id,
-      color: Colors.blueAccent,
+      color: Colors.black,
       points: polylineCoordinates,
       width: 4,
     );
@@ -165,11 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           condition: state is! LoadingAllGaragesDataState,
                           builder: (context) =>
                               GoogleMap(
-                                compassEnabled: false,
-                                padding: EdgeInsets.only(bottom: 0),
+                                compassEnabled: true,
                                 myLocationButtonEnabled: false,
                                 initialCameraPosition: _keyplex,
-                                mapType: MapType.normal,
+                                mapType: MapType.hybrid,
                                 myLocationEnabled: true,
                                 zoomControlsEnabled: false,
                                 zoomGesturesEnabled: true,
@@ -388,7 +387,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           print(
                                               '33333333333444---- $polylineCoordinates');
                                         } else {
-                                          print('5555555555');
                                           polylineCoordinates = [];
                                           await _createPolylines(
                                               destination: Position(

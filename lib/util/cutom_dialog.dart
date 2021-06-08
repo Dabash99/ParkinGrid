@@ -16,8 +16,9 @@ class CustomDialogBox extends StatefulWidget {
 dynamic padding = 20.0;
 dynamic avatar = 45.0;
 String Mode ;
+String _character = '0';
+
 class _CustomDialogBoxState extends State<CustomDialogBox> {
-   String _character = 'Less Than 5 Hours';
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -50,37 +51,70 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              GestureDetector(
+                onTap:(){
+                  Navigator.pop(context);
+                },
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Transform.rotate(angle: 40
+                      ,child: Icon(Icons.add_outlined,color:Colors.grey)),
+                ),
+              ),
+              SizedBox(height: 5,),
               Text(widget.title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),textAlign: TextAlign.center,),
               SizedBox(height: 5,),
               Text(widget.descriptions,style: TextStyle(fontSize: 17,fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
-              ListTile(
-                title: Text('Less Than 5 Hours'),
-                leading: Radio(value: '0', groupValue: _character,onChanged: (Mode){
+              GestureDetector(
+                onTap: (){
                   setState(() {
-                    _character=Mode;
+                    _character= '0';
                   });
-                  print('Value === $Mode');
+                },
+                child: ListTile(
+                  title: Text('Less Than 5 Hours'),
+                  leading: Radio(value: '0', groupValue: _character,onChanged: (Mode){
+                    setState(() {
+                      _character=Mode;
+                    });
+                    print('Value === ${_character}');
 
-                },),
+                  },),
+                ),
               ),
-              ListTile(
-                title: Text('Less Than Day'),
-                leading: Radio(value: '1',groupValue: _character,onChanged: (Mode){
+              GestureDetector(
+                onTap: (){
                   setState(() {
-                    _character=Mode;
+                    _character= '1';
                   });
-                  print('Value === $Mode');
+                  print('######### 1');
+                },
+                child: ListTile(
+                  title: Text('Less Than Day'),
+                  leading: Radio(value: '1',groupValue: _character,onChanged: (Mode){
+                    setState(() {
+                      _character=Mode;
+                    });
+                    print('Value === $Mode');
 
-                },),
+                  },),
+                ),
               ),
-              ListTile(
-                title: Text('More Than Day'),
-                leading: Radio(value: '2', groupValue: _character,onChanged: (Mode){
+              GestureDetector(
+                onTap: (){
                   setState(() {
-                    _character=Mode;
+                    _character= '2';
                   });
-                  print('Value === $Mode');
-                },),
+                },
+                child: ListTile(
+                  title: Text('More Than Day'),
+                  leading: Radio(value: '2', groupValue: _character,onChanged: (Mode){
+                    setState(() {
+                      _character=Mode;
+                    });
+                    print('Value === $Mode');
+                  },),
+                ),
               ),
 
               Align(
