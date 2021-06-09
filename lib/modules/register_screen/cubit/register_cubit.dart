@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:parking_gird/models/login_model.dart';
+import 'package:parking_gird/models/register_model.dart';
 import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/network/end_points.dart';
 import 'package:parking_gird/shared/network/remote/dio_helper.dart';
@@ -14,7 +14,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   static RegisterCubit get(context)=> BlocProvider.of(context);
 
-  LoginModel loginModel;
+  RegisterModel registerModel;
 
   void userReister({
     @required String firstName,
@@ -39,8 +39,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     }).then((value){
       print(value.data['status']);
       if(value.data['status']){
-        loginModel =LoginModel.fromJson(value.data);
-        emit(RegisterSuccessState(loginModel));
+        registerModel =RegisterModel.fromJson(value.data);
+        emit(RegisterSuccessState(registerModel));
       }else{
         print('ERrror == ${value.data['message']}');
         showToastt(msg: value.data['message'], state: ToastStates.ERROR);

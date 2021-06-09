@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Position currentpostion;
   final Completer<GoogleMapController> _controllerGoogle = Completer();
   static final CameraPosition _keyplex =
-  CameraPosition(target: LatLng(0, 0), zoom: 15.0);
+      CameraPosition(target: LatLng(0, 0), zoom: 15.0);
 
   // Method for retrieving the current location
   void locatepostion() async {
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(15, 15)),
-        'assets/images/mapMarker.png')
+            'assets/images/mapMarker.png')
         .then((icon) {
       customIcon = icon;
     });
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Initializing Polyline
     polyline = Polyline(
       polylineId: id,
-      color: Colors.black,
+      color: defaultColor,
       points: polylineCoordinates,
       width: 4,
     );
@@ -163,85 +163,82 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ConditionalBuilder(
                           condition: state is! LoadingAllGaragesDataState,
-                          builder: (context) =>
-                              GoogleMap(
-                                compassEnabled: true,
-                                myLocationButtonEnabled: false,
-                                initialCameraPosition: _keyplex,
-                                mapType: MapType.hybrid,
-                                myLocationEnabled: true,
-                                zoomControlsEnabled: false,
-                                zoomGesturesEnabled: true,
-                                markers: markers.values.toSet(),
-                                polylines: Set<Polyline>.of(polylines.values),
-                                onMapCreated: (GoogleMapController controller) {
-                                  _controllerGoogle.complete(controller);
-                                  mapController = controller;
-                                  locatepostion();
-                                  setState(() {
-                                    for (var index = 0;
+                          builder: (context) => GoogleMap(
+                            compassEnabled: true,
+                            myLocationButtonEnabled: false,
+                            initialCameraPosition: _keyplex,
+                            mapType: MapType.hybrid,
+                            myLocationEnabled: true,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: true,
+                            markers: markers.values.toSet(),
+                            polylines: Set<Polyline>.of(polylines.values),
+                            onMapCreated: (GoogleMapController controller) {
+                              _controllerGoogle.complete(controller);
+                              mapController = controller;
+                              locatepostion();
+                              setState(() {
+                                for (var index = 0;
                                     index <
                                         garageCubit
                                             .getAllGarages.garages.length;
                                     index++) {
-                                      final marker = Marker(
-                                          markerId: MarkerId(garageCubit
-                                              .getAllGarages
-                                              .garages[index]
-                                              .garageName),
-                                          icon: customIcon,
-                                          position: LatLng(
-                                              garageCubit
-                                                  .getAllGarages.garages[index]
-                                                  .lat,
-                                              garageCubit.getAllGarages
-                                                  .garages[index].long),
-                                          infoWindow: InfoWindow(
-                                            title: garageCubit.getAllGarages
-                                                .garages[index].garageName,
-                                            snippet: garageCubit.getAllGarages
-                                                .garages[index].cityName,
-                                          ),
-                                          onTap: () async {
-                                            dynamic _placeDistance;
-                                            await _createPolylines(
-                                                destination: Position(
-                                                    longitude: garageCubit
-                                                        .getAllGarages
-                                                        .garages[index]
-                                                        .long,
-                                                    latitude: garageCubit
-                                                        .getAllGarages
-                                                        .garages[index]
-                                                        .lat));
-                                            _placeDistance = totalDistance(
-                                                polylineCoordinates:
+                                  final marker = Marker(
+                                      markerId: MarkerId(garageCubit
+                                          .getAllGarages
+                                          .garages[index]
+                                          .garageName),
+                                      icon: customIcon,
+                                      position: LatLng(
+                                          garageCubit.getAllGarages
+                                              .garages[index].lat,
+                                          garageCubit.getAllGarages
+                                              .garages[index].long),
+                                      infoWindow: InfoWindow(
+                                        title: garageCubit.getAllGarages
+                                            .garages[index].garageName,
+                                        snippet: garageCubit.getAllGarages
+                                            .garages[index].cityName,
+                                      ),
+                                      onTap: () async {
+                                        dynamic _placeDistance;
+                                        await _createPolylines(
+                                            destination: Position(
+                                                longitude: garageCubit
+                                                    .getAllGarages
+                                                    .garages[index]
+                                                    .long,
+                                                latitude: garageCubit
+                                                    .getAllGarages
+                                                    .garages[index]
+                                                    .lat));
+                                        _placeDistance = totalDistance(
+                                            polylineCoordinates:
                                                 polylineCoordinates);
-                                            _placeDistance = double.parse(
-                                                (_placeDistance)
-                                                    .toStringAsFixed(2));
-                                            print(
-                                                'Distance === ${_placeDistance}');
-                                            //d = totalDistance(polylineCoordinates: coordintae);
-                                            setState(() {
-                                              g = garageCubit.getAllGarages
-                                                  .garages[index].garageName;
-                                              distance = _placeDistance;
-                                              showhide = false;
-                                              polylineCoordinates = [];
-                                            });
-                                          });
-                                      markers[garageCubit.getAllGarages
-                                          .garages[index].garageName] = marker;
-                                      print('Markers : $marker');
-                                    }
-                                  });
-                                },
-                              ),
-                          fallback: (context) =>
-                              Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                                        _placeDistance = double.parse(
+                                            (_placeDistance)
+                                                .toStringAsFixed(2));
+                                        print(
+                                            'Distance === ${_placeDistance}');
+                                        //d = totalDistance(polylineCoordinates: coordintae);
+                                        setState(() {
+                                          g = garageCubit.getAllGarages
+                                              .garages[index].garageName;
+                                          distance = _placeDistance;
+                                          showhide = false;
+                                          polylineCoordinates = [];
+                                        });
+                                      });
+                                  markers[garageCubit.getAllGarages
+                                      .garages[index].garageName] = marker;
+                                  print('Markers : $marker');
+                                }
+                              });
+                            },
+                          ),
+                          fallback: (context) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                         Align(
                           alignment: Alignment.topLeft,
@@ -340,85 +337,81 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(10),
                               child: ConditionalBuilder(
                                 condition:
-                                state is! LoadingNearestGarageDataState,
+                                    state is! LoadingNearestGarageDataState,
                                 builder: (context) =>
                                     FloatingActionButton.extended(
-                                      onPressed: () async {
-                                        garageCubit.getBestDistance(
-                                            currentpostion: currentpostion);
-                                        setState(() {
-                                          g = Ganame;
-                                          lat = garageCubit.nearestLat;
-                                          lng = garageCubit.nearestLng;
-                                          id = garageCubit.nearestGarageID;
-                                          mapController.animateCamera(
-                                            CameraUpdate.newCameraPosition(
-                                              CameraPosition(
-                                                target: LatLng(
-                                                  garageCubit.nearestLat,
-                                                  garageCubit.nearestLng,
-                                                ),
-                                                zoom: 15.0,
-                                              ),
+                                  onPressed: () async {
+                                    garageCubit.getBestDistance(
+                                        currentpostion: currentpostion);
+                                    setState(() {
+                                      g = Ganame;
+                                      lat = garageCubit.nearestLat;
+                                      lng = garageCubit.nearestLng;
+                                      id = garageCubit.nearestGarageID;
+                                      mapController.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                            target: LatLng(
+                                              garageCubit.nearestLat,
+                                              garageCubit.nearestLng,
                                             ),
-                                          );
-                                        });
-                                        showhide = !showhide;
-                                        print(
-                                            'Position ==== ${Position(
-                                                longitude: lng,
-                                                latitude: lat)}');
-                                        if (!showhide) {
-                                          print('A7aaaaaaa');
-                                          await _createPolylines(
-                                              destination: Position(
-                                                  longitude: garageCubit
-                                                      .nearestLng,
-                                                  latitude:
+                                            zoom: 15.0,
+                                          ),
+                                        ),
+                                      );
+                                    });
+                                    showhide = !showhide;
+                                    print(
+                                        'Position ==== ${Position(longitude: lng, latitude: lat)}');
+                                    if (!showhide) {
+                                      print('A7aaaaaaa');
+                                      await _createPolylines(
+                                          destination: Position(
+                                              longitude:
+                                                  garageCubit.nearestLng,
+                                              latitude:
                                                   garageCubit.nearestLat));
-                                          var d = totalDistance(
-                                              polylineCoordinates:
+                                      var d = totalDistance(
+                                          polylineCoordinates:
                                               polylineCoordinates);
-                                          var _placeDistance =
-                                          double.parse((d).toStringAsFixed(2));
-                                          setState(() {
-                                            distance = _placeDistance;
-                                          });
-                                          print(
-                                              '33333333333444---- $polylineCoordinates');
-                                        } else {
-                                          polylineCoordinates = [];
-                                          await _createPolylines(
-                                              destination: Position(
-                                                  longitude: null,
-                                                  latitude: null));
-                                        }
+                                      var _placeDistance = double.parse(
+                                          (d).toStringAsFixed(2));
+                                      setState(() {
+                                        distance = _placeDistance;
+                                      });
+                                      print(
+                                          '33333333333444---- $polylineCoordinates');
+                                    } else {
+                                      polylineCoordinates = [];
+                                      await _createPolylines(
+                                          destination: Position(
+                                              longitude: null,
+                                              latitude: null));
+                                    }
 
-                                        print('EEWE ======== $distance');
-                                        print(
-                                            'eeeeee============ ${DiableinMAP(
-                                                DISTANCE: distance)}');
+                                    print('EEWE ======== $distance');
+                                    print(
+                                        'eeeeee============ ${DiableinMAP(DISTANCE: distance)}');
 
-                                        if (!DiableinMAP(DISTANCE: distance)) {
-                                          showToastt(
-                                              msg: 'ssssss',
-                                              state: ToastStates.WARNING);
-                                        }
-                                      },
-                                      label: Text(
-                                        'show the Nearest Garage'.toUpperCase(),
-                                      ),
-                                      icon: Image(
-                                        image: AssetImage(
-                                            'assets/images/logo_splash.png'),
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                    ),
-                                fallback: (context) =>
-                                    Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
+                                    if (!DiableinMAP(DISTANCE: distance)) {
+                                      showToastt(
+                                          msg: 'ssssss',
+                                          state: ToastStates.WARNING);
+                                    }
+                                  },
+                                  label: Text(
+                                    'show the Nearest Garage'.toUpperCase(),
+                                  ),
+                                  icon: Image(
+                                    image: AssetImage(
+                                        'assets/images/logo_splash.png'),
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                ),
+                                fallback: (context) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               )),
                         ),
                       ],
@@ -483,21 +476,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ElevatedButton(
                             onPressed: () {
                               if (distance < 2) {
-
                                 //+++++++++++++++++++++++++++++++
-                                showDialog(context: context,
-                                    builder: (BuildContext context){
-                                  return CustomDialogBox(
-                                      title: 'Please Select the Duration of Reservation',
-                                      descriptions: g,
-                                      text: 'Go to select your park',
-                                      distanc:distance
-                                  );}
-                                );
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomDialogBox(
+                                          title:
+                                              'Please Select the Duration of Reservation',
+                                          descriptions: g,
+                                          text: 'Go to select your park',
+                                          distanc: distance);
+                                    });
                                 //+++++++++++++++++++++++++++++++
 
                               } else {
-
                                 navigateTo(
                                     context,
                                     ParkingScreen(

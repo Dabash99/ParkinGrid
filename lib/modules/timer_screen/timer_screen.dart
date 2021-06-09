@@ -16,19 +16,20 @@ import 'package:parking_gird/util/LocatePosition.dart';
 import 'package:parking_gird/util/disable.dart';
 
 class TimerScreen extends StatelessWidget {
-  var parkingname;
-  var parkingfloor;
-  var id;
+  dynamic parkingname;
+  dynamic parkingfloor;
+  dynamic id;
   dynamic garageName;
   dynamic distance;
+  dynamic mode;
 
-  TimerScreen(
-      {Key key,
-      @required this.parkingfloor,
-      @required this.parkingname,
-      @required this.id,
-      @required this.garageName,
-      @required this.distance})
+  TimerScreen({Key key,
+    @required this.parkingfloor,
+    @required this.parkingname,
+    @required this.id,
+    @required this.garageName,
+    @required this.distance,
+    @required this.mode})
       : super(key: key);
   final Completer<GoogleMapController> _controllerGoogle = Completer();
 
@@ -41,7 +42,6 @@ class TimerScreen extends StatelessWidget {
         appBar: customAppBar(title: 'Timer'),
         body: Column(
           children: [
-
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
@@ -90,41 +90,48 @@ class TimerScreen extends StatelessWidget {
             ),
             Center(
                 child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: CircularCountDownTimer(
-                duration: 600,
-                initialDuration: 0,
-                controller: CountDownController(),
-                width: MediaQuery.of(context).size.width / 2,
-                height: MediaQuery.of(context).size.height / 2,
-                ringColor: Colors.grey[300],
-                ringGradient: null,
-                fillColor: Colors.green[400],
-                fillGradient: null,
-                backgroundColor: Colors.white,
-                backgroundGradient: null,
-                strokeWidth: 20.0,
-                strokeCap: StrokeCap.round,
-                textStyle: TextStyle(
-                    fontSize: 40.0,
-                    color: defaultColor,
-                    fontWeight: FontWeight.bold),
-                textFormat: CountdownTextFormat.MM_SS,
-                isReverse: true,
-                isReverseAnimation: true,
-                isTimerTextShown: true,
-                autoStart: true,
-                onComplete: () {
-                  HomeCubit.get(context)
-                      .sendParkRequest(garageName: Ganame, id: id, status: 3);
-                  AppCubit.get(context).removeParkData();
-                  showDialog(
-                      context: context,
-                      builder: alertDialogTimer,
-                      barrierDismissible: false);
-                },
-              ),
-            )),
+                  padding: const EdgeInsets.all(16.0),
+                  child: CircularCountDownTimer(
+                    duration: 600,
+                    initialDuration: 0,
+                    controller: CountDownController(),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 2,
+                    ringColor: Colors.grey[300],
+                    ringGradient: null,
+                    fillColor: Colors.green[400],
+                    fillGradient: null,
+                    backgroundColor: Colors.white,
+                    backgroundGradient: null,
+                    strokeWidth: 20.0,
+                    strokeCap: StrokeCap.round,
+                    textStyle: TextStyle(
+                        fontSize: 40.0,
+                        color: defaultColor,
+                        fontWeight: FontWeight.bold),
+                    textFormat: CountdownTextFormat.MM_SS,
+                    isReverse: true,
+                    isReverseAnimation: true,
+                    isTimerTextShown: true,
+                    autoStart: true,
+                    onComplete: () {
+                      HomeCubit.get(context)
+                          .sendParkRequest(
+                          garageName: Ganame, id: id, status: 3);
+                      AppCubit.get(context).removeParkData();
+                      showDialog(
+                          context: context,
+                          builder: alertDialogTimer,
+                          barrierDismissible: false);
+                    },
+                  ),
+                )),
             ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.white),
               onPressed: () {
@@ -138,6 +145,7 @@ class TimerScreen extends StatelessWidget {
                 navigateAndFinish(
                     context,
                     ParkingScreen(
+                      mode: mode,
                       garage: garageName,
                       distance: distance,
                     ));

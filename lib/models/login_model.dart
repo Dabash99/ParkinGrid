@@ -17,8 +17,8 @@ class UserLoginData{
   String lastName;
   String email;
   String phoneNumber;
-  String carNumber;
-  String carLetter;
+  List<String> carNumber;
+  List<String> carLetter;
 
   UserLoginData.fromJson(Map<String,dynamic>json){
     id = json['_id'];
@@ -26,7 +26,7 @@ class UserLoginData{
     lastName =json['lastName'];
     email = json['email'];
     phoneNumber =json['phoneNumber'];
-    carNumber=json['carNumber'];
-    carLetter=json['carLetter'];
+    carNumber = json['carNumber'].cast<String>();
+    carLetter = json['carLetter'].cast<String>();
   }
 }

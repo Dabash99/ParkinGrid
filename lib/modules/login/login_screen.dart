@@ -129,6 +129,9 @@ class LoginScreen extends StatelessWidget {
                                               password:
                                                   passwordController.text);
                                         }
+                                        if(state is LoginSuccessState){
+                                          navigateAndFinish(context, HomeScreen());
+                                        }
                                       },
                                       text: 'Login',
                                       isUpperCase: true),

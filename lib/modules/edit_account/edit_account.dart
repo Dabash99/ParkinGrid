@@ -30,8 +30,8 @@ class EditAccountScreen extends StatelessWidget {
             firstNameController.text =  userDataModel.firstName;
             lastNameController.text = userDataModel.lastName;
             emailController.text = userDataModel.email;
-            carLetterController.text = userDataModel.carLetter;
-            carNumberController.text = userDataModel.carNumber;
+            carLetterController.text = userDataModel.carLetter.join(' ');
+            carNumberController.text = userDataModel.carNumber.join(' ');
             phoneController.text = userDataModel.phoneNumber;
           }
           print('33333333 ===== ${userDataModel.firstName}');

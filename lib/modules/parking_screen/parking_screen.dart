@@ -161,6 +161,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                         navigateAndFinish(
                                             context,
                                             TimerScreen(
+                                              mode:widget.mode,
                                               garageName: widget.garage,
                                               parkingname: pName,
                                               parkingfloor: fName,

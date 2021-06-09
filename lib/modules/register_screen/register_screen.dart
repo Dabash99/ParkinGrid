@@ -1,6 +1,7 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parking_gird/models/register_model.dart';
 import 'package:parking_gird/modules/home_screen/home_screen.dart';
 import 'package:parking_gird/modules/login/login_screen.dart';
 import 'package:parking_gird/modules/register_screen/cubit/register_cubit.dart';
@@ -26,16 +27,16 @@ class RegisterScreen extends StatelessWidget {
         listener: (context, state) {
           // TODO: implement listener
           if (state is RegisterSuccessState) {
-            if (state.loginModel.status) {
-              print(state.loginModel.token);
-              CacheHelper.saveData(key: 'token', value: state.loginModel.token,)
+            if (state.registerModel.status) {
+              print(state.registerModel.token);
+              CacheHelper.saveData(key: 'token', value: state.registerModel.token,)
                   .then((value) {
-                token=state.loginModel.token;
+                token=state.registerModel.token;
                 navigateAndFinish(context, HomeScreen());
               });
-              showToastt(msg: state.loginModel.msg, state: ToastStates.SUCCESS);
+              showToastt(msg: state.registerModel.msg, state: ToastStates.SUCCESS);
             } else{
-              showToastt(msg: state.loginModel.msg, state: ToastStates.ERROR);
+              showToastt(msg: state.registerModel.msg, state: ToastStates.ERROR);
             }
           }
         },
@@ -201,7 +202,7 @@ class RegisterScreen extends StatelessWidget {
                                     if (value.isEmpty) {
                                       return 'Required Field';
                                     }
-                                    if(value.length == 10){
+                                    if(value.length != 11 ){
                                       return 'InValid Phone Number';
                                     }
                                   },
@@ -224,6 +225,10 @@ class RegisterScreen extends StatelessWidget {
                                         lastName: lastNameController.text,
                                         carLetter: carLetterController.text,
                                       );
+                                    }
+                                    if(state is RegisterSuccessState){
+                                      navigateAndFinish(context, HomeScreen());
+
                                     }
                                   },
                                   text: 'register',

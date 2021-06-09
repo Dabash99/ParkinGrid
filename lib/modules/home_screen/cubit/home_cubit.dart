@@ -19,23 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
   static HomeCubit get(context) => BlocProvider.of(context);
- /* LoginModel loginModel;
 
-  void getUserData() {
-    emit(LoadingUserDataState());
-    DioHelper.getData(
-      url: PROFILE,
-      token: token
-    ).then((value) {
-      loginModel = LoginModel.fromJson(value.data);
-      print(loginModel.data.firstName);
-      emit(SuccessUserDataState(loginModel));
-    }).catchError((error) {
-      print(error.toString());
-      print('EEEEERRR ====== ${DioHelper.dio.options.headers}');
-      emit(ErrorUserDataState());
-    });
-  }*/
 
   GetAllGarages getAllGarages;
 
