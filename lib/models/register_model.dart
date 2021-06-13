@@ -1,3 +1,4 @@
+
 class RegisterModel{
   String token;
   bool status;
@@ -17,8 +18,8 @@ class UserRegisterData{
   String lastName;
   String email;
   String phoneNumber;
-  String carNumber;
-  String carLetter;
+  List<String> carNumber;
+  List<String> carLetter;
 
   UserRegisterData.fromJson(Map<String,dynamic>json){
     id = json['_id'];
@@ -26,7 +27,7 @@ class UserRegisterData{
     lastName =json['lastName'];
     email = json['email'];
     phoneNumber =json['phoneNumber'];
-    carNumber=json['carNumber'];
-    carLetter=json['carLetter'];
+    carNumber = json['carNumber'].cast<String>();
+    carLetter = json['carLetter'].cast<String>();
   }
 }

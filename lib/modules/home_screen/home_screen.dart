@@ -364,7 +364,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     print(
                                         'Position ==== ${Position(longitude: lng, latitude: lat)}');
                                     if (!showhide) {
-                                      print('A7aaaaaaa');
                                       await _createPolylines(
                                           destination: Position(
                                               longitude:
@@ -395,6 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     if (!DiableinMAP(DISTANCE: distance)) {
                                       showToastt(
+                                        //TODO
                                           msg: 'ssssss',
                                           state: ToastStates.WARNING);
                                     }

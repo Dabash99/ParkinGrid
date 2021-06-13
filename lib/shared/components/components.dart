@@ -9,12 +9,14 @@ import 'package:parking_gird/modules/home_screen/home_screen.dart';
 import 'package:parking_gird/modules/parking_screen/parking_screen.dart';
 import 'package:parking_gird/modules/rate_us_screen.dart';
 import 'package:parking_gird/modules/share_screen.dart';
+import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 import 'constants.dart';
 
-Widget myDivider() => Padding(
+Widget myDivider() =>
+    Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
         width: double.infinity,
@@ -51,11 +53,11 @@ Widget defaultFormField({
         prefixIcon: prefix != null ? Icon(prefix) : null,
         suffixIcon: suffix != null
             ? IconButton(
-                onPressed: suffixPressed,
-                icon: Icon(
-                  suffix,
-                ),
-              )
+          onPressed: suffixPressed,
+          icon: Icon(
+            suffix,
+          ),
+        )
             : null,
         border: new OutlineInputBorder(
           borderRadius: const BorderRadius.all(
@@ -72,8 +74,10 @@ Widget defaultFormField({
 void navigateTo(context, Widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => Widget));
 
-void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
-    context, MaterialPageRoute(builder: (context) => widget), (route) => false);
+void navigateAndFinish(context, widget) =>
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => widget), (
+        route) => false);
 
 Widget defaultButton({
   double width = double.infinity,
@@ -130,7 +134,7 @@ Color chooseToastColor(ToastStates state) {
 }
 
 Widget defaultTextButton(
-        {@required Function function, @required String title}) =>
+    {@required Function function, @required String title}) =>
     TextButton(
         onPressed: function,
         child: Text(
@@ -138,7 +142,8 @@ Widget defaultTextButton(
           style: TextStyle(fontWeight: FontWeight.bold, color: defaultColor),
         ));
 
-Widget customAppBar({@required String title}) => AppBar(
+Widget customAppBar({@required String title}) =>
+    AppBar(
       iconTheme: IconThemeData(color: Color(0xff078547)),
       title: Center(
         child: Row(
@@ -164,7 +169,8 @@ Widget customAppBar({@required String title}) => AppBar(
       ],
     );
 
-Widget customDrawer(context) => Drawer(
+Widget customDrawer(context) =>
+    Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -235,9 +241,9 @@ Widget customDrawer(context) => Drawer(
     );
 
 Widget defaultListTile(context,
-        {@required String title,
-        @required Widget icon,
-        @required Widget widget}) =>
+    {@required String title,
+      @required Widget icon,
+      @required Widget widget}) =>
     ListTile(
       title: Text(
         title,
@@ -251,13 +257,12 @@ Widget defaultListTile(context,
 
 bool selected = true;
 
-Widget buildParks(
-        {@required Color color,
-        @required String name,
-        @required Function ontapFunction,
-        @required double Width,
-        @required bool Ignoring,
-        @required String Mode}) =>
+Widget buildParks({@required Color color,
+  @required String name,
+  @required Function ontapFunction,
+  @required double Width,
+  @required bool Ignoring,
+  @required String Mode}) =>
     Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
@@ -290,7 +295,7 @@ Widget buildParks(
                             bottomLeft: Radius.circular(12))),
                     child: Text(
                       Mode,
-                      style: TextStyle(color: Colors.white,fontSize: 12),
+                      style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -302,7 +307,8 @@ Widget buildParks(
       ),
     );
 
-Widget buildInfoPark({@required Color color, @required String string}) => Row(
+Widget buildInfoPark({@required Color color, @required String string}) =>
+    Row(
       children: [
         CircleAvatar(
             backgroundColor: Colors.black26,
@@ -320,7 +326,8 @@ Widget buildInfoPark({@required Color color, @required String string}) => Row(
       ],
     );
 
-Widget alertDialogTimer(context) => AlertDialog(
+Widget alertDialogTimer(context) =>
+    AlertDialog(
       title: Row(
         children: [
           Icon(
@@ -340,7 +347,10 @@ Widget alertDialogTimer(context) => AlertDialog(
       actions: [
         TextButton(
           onPressed: () {
-            navigateAndFinish(context, ParkingScreen());
+            navigateAndFinish(context, ParkingScreen(
+              garage: CacheHelper.getData(key: 'garageName'),
+              mode: CacheHelper.getData(key: 'mode'),
+              distance:CacheHelper.getData(key: 'distance'),));
           },
           child: Text('OK, Back to book other park',
               style: TextStyle(color: defaultColor)),
@@ -357,20 +367,21 @@ Widget alertDialogTimer(context) => AlertDialog(
       ],
     );
 
-Widget logoNewDesign() => WidgetCircularAnimator(
-    size: 150,
-    innerColor: Colors.white,
-    outerColor: Colors.white,
-    innerAnimation: Curves.bounceOut,
-    reverse: false,
-    child: Center(
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
-            borderRadius: BorderRadius.circular(150)),
-        child: Image.asset(
-          'assets/images/logo_splash.png',
-          fit: BoxFit.cover,
-        ),
-      ),
-    ));
+Widget logoNewDesign() =>
+    WidgetCircularAnimator(
+        size: 150,
+        innerColor: Colors.white,
+        outerColor: Colors.white,
+        innerAnimation: Curves.bounceOut,
+        reverse: false,
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
+                borderRadius: BorderRadius.circular(150)),
+            child: Image.asset(
+              'assets/images/logo_splash.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ));

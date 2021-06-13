@@ -30,7 +30,6 @@ bool IGNORING({@required String color}) {
 String buttonText='';
 
 
-
 var parkId;
 var pName;
 var fName;
@@ -52,6 +51,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           print('PArking Mode === ${widget.mode}');
+          CacheHelper.saveData(key: 'garageName', value: widget.garage);
+          CacheHelper.saveData(key: 'distance', value: widget.distance);
+          CacheHelper.saveData(key: 'mode', value: widget.mode);
+
         },
         builder: (context, state) {
           var idGarage = HomeCubit.get(context);

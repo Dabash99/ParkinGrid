@@ -227,8 +227,8 @@ class RegisterScreen extends StatelessWidget {
                                       );
                                     }
                                     if(state is RegisterSuccessState){
-                                      navigateAndFinish(context, HomeScreen());
-
+                                      print('Done!!!!!!!!!!');
+                                      //navigateAndFinish(context, HomeScreen());
                                     }
                                   },
                                   text: 'register',

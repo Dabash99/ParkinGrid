@@ -44,11 +44,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       }else{
         print('ERrror == ${value.data['message']}');
         showToastt(msg: value.data['message'], state: ToastStates.ERROR);
-        emit(RegisterErrorState(value.data['message']));
+        emit(RegisterErrorState('Error Message : ${value.data['message']}'));
       }
 
     }).catchError((onError){
-      print(onError);
+      print('ERRRRRRRRR = $onError');
       emit(RegisterErrorState(onError.toString()));
     });
   }

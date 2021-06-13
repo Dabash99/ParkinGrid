@@ -78,7 +78,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       _character=Mode;
                     });
                     print('Value === ${_character}');
-
                   },),
                 ),
               ),
@@ -87,7 +86,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   setState(() {
                     _character= '1';
                   });
-                  print('######### 1');
                 },
                 child: ListTile(
                   title: Text('Less Than Day'),
@@ -95,7 +93,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     setState(() {
                       _character=Mode;
                     });
-                    print('Value === $Mode');
 
                   },),
                 ),
@@ -112,7 +109,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     setState(() {
                       _character=Mode;
                     });
-                    print('Value === $Mode');
                   },),
                 ),
               ),

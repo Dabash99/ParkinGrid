@@ -47,7 +47,7 @@ class EditAccountScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ConditionalBuilder(
-                    condition:  state is SuccessUserDataState,
+                    condition:  state is SuccessUserDataState || state is SuccessUpdateUserDataState,
                     builder: (context) => Form(
                       key: formKey,
                       child: Column(
@@ -56,7 +56,19 @@ class EditAccountScreen extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          logoNewDesign(),
+                          Center(
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade900.withOpacity(0.3).withGreen(10),
+                                  borderRadius: BorderRadius.circular(150)),
+                              child: Image.asset(
+                                'assets/images/logo_splash.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -205,7 +217,9 @@ class EditAccountScreen extends StatelessWidget {
                                                             .text,
                                                     phoneNumber:
                                                         phoneController.text);
+
                                           }
+
                                         }),
                                     fallback: (context) => Center(
                                       child: LinearProgressIndicator(),

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parking_gird/layout/cubit/app_cubit.dart';
 
 import 'package:parking_gird/modules/home_screen/cubit/home_cubit.dart';
@@ -12,7 +11,6 @@ import 'package:parking_gird/shared/components/components.dart';
 import 'package:parking_gird/shared/components/constants.dart';
 import 'package:parking_gird/shared/network/local/cache_helper.dart';
 import 'package:parking_gird/shared/styles/colors.dart';
-import 'package:parking_gird/util/LocatePosition.dart';
 import 'package:parking_gird/util/disable.dart';
 
 class TimerScreen extends StatelessWidget {
@@ -31,8 +29,6 @@ class TimerScreen extends StatelessWidget {
     @required this.distance,
     @required this.mode})
       : super(key: key);
-  final Completer<GoogleMapController> _controllerGoogle = Completer();
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -92,7 +88,7 @@ class TimerScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: CircularCountDownTimer(
-                    duration: 600,
+                    duration: 60,
                     initialDuration: 0,
                     controller: CountDownController(),
                     width: MediaQuery
@@ -141,7 +137,6 @@ class TimerScreen extends StatelessWidget {
                 isSelected = false;
                 parkId = null;
                 Disabled(PARKID: parkId);
-                //navigateTo(context, ParkingScreen(garage: garageName,distance: distance,));
                 navigateAndFinish(
                     context,
                     ParkingScreen(
