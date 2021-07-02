@@ -14,10 +14,10 @@ import 'package:parking_gird/util/disable.dart';
 
 class ParkingScreen extends StatefulWidget {
   @override
-  dynamic garage,distance;
+  dynamic garage,distance,lat ,lng;
   String mode;
   _ParkingScreenState createState() => _ParkingScreenState();
-  ParkingScreen({Key key,@required this.garage,@required this.distance,this.mode}):super(key: key);
+  ParkingScreen({Key key,@required this.garage,@required this.distance,this.mode,@required this.lat,@required this.lng}):super(key: key);
 }
 
 bool IGNORING({@required String color}) {
@@ -118,7 +118,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                                 !idGarage.getAllParks
                                                     .parkings[index].selected;
                                             parkId = idGarage.getAllParks
-                                                .parkings[index].sId;
+                                                .parkings[index].id;
                                             pName = idGarage.getAllParks
                                                 .parkings[index].parkingName;
                                             fName = idGarage.getAllParks
@@ -169,6 +169,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                               parkingname: pName,
                                               parkingfloor: fName,
                                               id: parkId,
+                                              lng: widget.lng,
+                                              lat: widget.lat,
                                               distance: widget.distance,
                                             ));
                                       } else {

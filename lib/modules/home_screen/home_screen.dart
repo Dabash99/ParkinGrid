@@ -61,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+
   double distance = 0.0;
   var cc = GlobalKey();
 
@@ -392,12 +393,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     print(
                                         'eeeeee============ ${DiableinMAP(DISTANCE: distance)}');
 
-                                    if (!DiableinMAP(DISTANCE: distance)) {
-                                      showToastt(
-                                        //TODO
-                                          msg: 'ssssss',
-                                          state: ToastStates.WARNING);
-                                    }
                                   },
                                   label: Text(
                                     'show the Nearest Garage'.toUpperCase(),
@@ -485,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               'Please Select the Duration of Reservation',
                                           descriptions: g,
                                           text: 'Go to select your park',
-                                          distanc: distance);
+                                          distanc: distance,lat: lat,lng: lng,);
                                     });
                                 //+++++++++++++++++++++++++++++++
 
@@ -495,6 +490,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ParkingScreen(
                                       garage: g,
                                       distance: distance,
+                                      lat: lat,
+                                      lng: lng,
                                     ));
                               }
                             },

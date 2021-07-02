@@ -1,97 +1,106 @@
+// To parse this JSON data, do
+//
+//     final getAllParks = getAllParksFromJson(jsonString);
+
+import 'dart:convert';
+
+GetAllParks getAllParksFromJson(String str) => GetAllParks.fromJson(json.decode(str));
+
+String getAllParksToJson(GetAllParks data) => json.encode(data.toJson());
+
 class GetAllParks {
-  String sId;
+  GetAllParks({
+    this.id,
+    this.cityName,
+    this.garageName,
+    this.parkings,
+    this.v,
+  });
+
+  String id;
   String cityName;
   String garageName;
-  List<Parkings> parkings;
+  List<Parking> parkings;
+  int v;
 
-  GetAllParks({this.sId, this.cityName, this.garageName, this.parkings,});
+  factory GetAllParks.fromJson(Map<String, dynamic> json) => GetAllParks(
+    id: json["_id"],
+    cityName: json["cityName"],
+    garageName: json["garageName"],
+    parkings: List<Parking>.from(json["parkings"].map((x) => Parking.fromJson(x))),
+    v: json["__v"],
+  );
 
-  GetAllParks.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    cityName = json['cityName'];
-    garageName = json['garageName'];
-    if (json['parkings'] != null) {
-      parkings = new List<Parkings>();
-      json['parkings'].forEach((v) {
-        parkings.add(new Parkings.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['cityName'] = this.cityName;
-    data['garageName'] = this.garageName;
-    if (this.parkings != null) {
-      data['parkings'] = this.parkings.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "cityName": cityName,
+    "garageName": garageName,
+    "parkings": List<dynamic>.from(parkings.map((x) => x.toJson())),
+    "__v": v,
+  };
 }
 
-class Parkings {
+class Parking {
+  Parking({
+    this.userData,
+    this.id,
+    this.parkingFloor,
+    this.parkingName,
+    this.status,
+    this.Mode,
+  });
+
   UserData userData;
-  String sId;
+  String id;
   String parkingFloor;
   String parkingName;
   String status;
   String Mode;
-
   bool selected =false;
 
-  Parkings(
-      {this.userData,
-        this.sId,
-        this.parkingFloor,
-        this.parkingName,
-        this.status});
+  factory Parking.fromJson(Map<String, dynamic> json) => Parking(
+    userData: UserData.fromJson(json["userData"]),
+    id: json["_id"],
+    parkingFloor: json["parking_Floor"],
+    parkingName: json["parking_Name"],
+    status: json["status"],
+    Mode: json["mode"],
+  );
 
-  Parkings.fromJson(Map<String, dynamic> json) {
-    userData = json['userData'] != null
-        ? new UserData.fromJson(json['userData'])
-        : null;
-    sId = json['_id'];
-    parkingFloor = json['parking_Floor'];
-    parkingName = json['parking_Name'];
-    status = json['status'];
-    Mode =json['mode'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.userData != null) {
-      data['userData'] = this.userData.toJson();
-    }
-    data['_id'] = this.sId;
-    data['parking_Floor'] = this.parkingFloor;
-    data['parking_Name'] = this.parkingName;
-    data['status'] = this.status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "userData": userData.toJson(),
+    "_id": id,
+    "parking_Floor": parkingFloor,
+    "parking_Name": parkingName,
+    "status": status,
+    "mode": Mode,
+  };
 }
 
 class UserData {
+  UserData({
+    this.carNumber,
+    this.carLetter,
+    this.email,
+    this.phoneNumber,
+  });
+
+  List<String> carNumber;
+  List<String> carLetter;
   String email;
   String phoneNumber;
-  int carNumber;
-  String carLetter;
 
-  UserData({this.email, this.phoneNumber, this.carNumber, this.carLetter});
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+    carNumber: json["carNumber"] == null ? null : List<String>.from(json["carNumber"].map((x) => x)),
+    carLetter: json["carLetter"] == null ? null : List<String>.from(json["carLetter"].map((x) => x)),
+    email: json["email"] == null ? null : json["email"],
+    phoneNumber: json["phoneNumber"] == null ? null : json["phoneNumber"],
+  );
 
-  UserData.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    phoneNumber = json['phoneNumber'];
-    carNumber = json['carNumber'];
-    carLetter = json['carLetter'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['phoneNumber'] = this.phoneNumber;
-    data['carNumber'] = this.carNumber;
-    data['carLetter'] = this.carLetter;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "carNumber": carNumber == null ? null : List<dynamic>.from(carNumber.map((x) => x)),
+    "carLetter": carLetter == null ? null : List<dynamic>.from(carLetter.map((x) => x)),
+    "email": email == null ? null : email,
+    "phoneNumber": phoneNumber == null ? null : phoneNumber,
+  };
 }

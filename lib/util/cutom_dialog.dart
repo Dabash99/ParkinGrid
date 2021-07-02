@@ -8,7 +8,9 @@ import 'package:parking_gird/shared/styles/colors.dart';
 class CustomDialogBox extends StatefulWidget {
   final String title, descriptions, text;
   final double distanc;
-  const CustomDialogBox({Key key, this.title, this.descriptions, this.text,this.distanc}) : super(key: key);
+  final dynamic lat;
+  final dynamic lng;
+  const CustomDialogBox({Key key, this.title, this.descriptions, this.text,this.distanc,this.lat,this.lng}) : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
@@ -119,7 +121,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   style: ElevatedButton.styleFrom(primary: Colors.white,elevation: 0),
                     onPressed: (){
                     print('Dialog Mode = $Mode');
-                    navigateTo(context, ParkingScreen(garage: widget.descriptions, distance: widget.distanc,mode: _character,));
+                    navigateTo(context, ParkingScreen(garage: widget.descriptions, distance: widget.distanc,mode: _character,lat:widget.lat ,lng: widget.lng,));
                     },
                     child: Text(widget.text,style: TextStyle(fontSize: 18,color: defaultColor),)),
               ),
